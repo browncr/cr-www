@@ -1,0 +1,36 @@
+@(title: String)(content: Html)
+
+@general(title) {
+
+<div id="content" class="view row">
+    <div style="background-color: #0a4b5c; border: 1px solid black; color: white" class="stats-sidebar large-3 columns">
+        <form>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Course Code
+                        <input type="text" /> 
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Instructor
+                        <input type="text" placeholder="Carberry, Josiah" /> 
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Title
+                        <input type="text" placeholder="Introduction to Psychoceramics" /> 
+                    </label>
+                </div>
+            </div>
+        </form>
+        <a href="/help/search">Search Help</a>
+    </div>
+    <div style="background-color: #f2ecda; border: 1px solid black" class="large-9 columns">
+        @content
+    </div>
+</div>
+}

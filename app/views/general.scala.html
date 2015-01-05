@@ -1,0 +1,96 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@title</title>
+        <link rel="stylesheet" href="@routes.Assets.at("css/foundation.css")" />
+        <script type="text/javascript" src="@routes.Assets.at("js/modernizr.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/jquery.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/foundation/foundation.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/foundation/foundation.topbar.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/foundation/foundation.alert.js")"></script>
+      
+        <script>
+          $(document).ready(function() {
+              $(document).foundation();
+          });
+        </script>
+        <style type="text/css">
+            body {
+                background-color: #002b36;
+            }
+            a {
+                color: #268bd2;
+            }
+            a:visited {
+                color: #551a8b;
+            }
+            ::-moz-selection {
+                color: #f2ecda;
+                background-color: #918d80;
+            }
+            ::selection {
+                background-color: #918d80
+            }
+
+
+
+            #content.view .stats-sidebar .box .inner {
+                margin: auto auto 0.5em auto;
+                background: #EEE;
+                padding: 0.5em 0.2em;
+            }
+            #content.view .stats-sidebar .box {
+                text-align: center;
+            }
+            #content.view .stats-sidebar .avg {
+                font-size: 150%;
+                font-weight: bold;
+            }
+
+
+
+
+        </style>
+    </head>
+    <body>
+
+      <nav class="top-bar" data-topbar> 
+          <ul class="title-area"> 
+              <li class="name"> <h1><a href="/">The Critical Review</a></h1> </li> 
+              <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li> 
+          </ul> 
+          <section class="top-bar-section"> 
+              <!-- Right Nav Section --> 
+              <ul class="right"> 
+                  <!-- <li class="has-form"> 
+                      <div class="row collapse"> 
+                          <div class="large-8 small-9 columns"> 
+                              <input type="text" placeholder="Search Courses"> 
+                          </div> 
+                          <div class="large-4 small-3 columns"> 
+                              <a href="#" class="alert button expand">Search</a> 
+                          </div> 
+                      </div> 
+                  </li> -->
+
+                  <li class="active"><a href="/cr.php?login_form=yes;">Staff Login</a></li> 
+              </ul> 
+              
+              <!-- Left Nav Section --> 
+              <ul class="left"> 
+                  <li> <a href="/about">About</a> </li> 
+                  <li> <a href="/about/bios">Staff</a> </li> 
+                  <li> <a href="/about/contact">Contact</a> </li> 
+                  <li> <a href="/help">Help</a> </li> 
+                  <li> <a href="/about/write">Write for CR</a> </li> 
+              </ul> 
+          </section> 
+      </nav>
+      @content
+    </body>
+</html>

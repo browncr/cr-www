@@ -1,0 +1,31 @@
+@(message: String)
+
+@link(name : String, path : String) = {
+  <a href="@path">@name</a>
+}
+
+@main("About the Critical Review") {
+  <h3>About the Critical Review</h3>
+  <p>
+      The Critical Review is a Brown University student organization
+      that publishes reviews of undergraduate courses, based on
+      responses from students and instructors to questionnaires.
+      The organization, which began in 1976 as a publication of the
+      Undergraduate Council of Students, is now recognized by UCS as
+      a Category III Student Group.  The Critical Review is the only
+      organization at Brown that produces written and numerical course
+      evaluations that are available publicly and that are designed
+      to reflect the consensus of the students in each class.
+  </p>
+  <h4>Learn more:</h4>
+  <ul>
+      @for(pair <- List("Staff Bios" -> "/about/bio",
+                        "FAQ" -> "/about/faq",
+                        "History" -> "/about/history",
+                        "Contact" -> "/about/contact",
+                        "Write for CR" -> "/about/write")) {
+                          
+          <li>@link(pair._1, pair._2)</li>
+      }
+  </ul>
+}

@@ -1,0 +1,25 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index
+
+# About pages
+GET     /about                      controllers.About.index
+GET     /about/history              controllers.About.history
+GET     /about/contact              controllers.About.contact
+GET     /about/write                controllers.About.write
+
+GET     /help                       controllers.Help.index
+GET     /help/review                controllers.Help.review
+GET     /help/search                controllers.Help.search
+GET     /help/instructor_names      controllers.Help.instructor_names
+
+GET     /search                     controllers.Course.search
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /images/*file               controllers.OldRoutes.images(file)
+
+GET     /:dept/:num/:offering/:section controllers.Course.review(dept : String, num : String, offering : String, section : String)

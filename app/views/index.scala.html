@@ -1,0 +1,36 @@
+@(message: String)
+
+@general("Welcome to Play") {
+
+<div id="content" class="view row">
+    <div style="background-color: #0a4b5c; border: 1px solid black; color: white" class="stats-sidebar large-3 columns">
+        <h4 style="color: white">About:</h4>
+        <p style="font-size: 85%">The Critical Review distributes surveys
+        to each class at Brown at the end of each semester. Using
+        the responses provided by students and instructors, we write
+        reviews to help students pick courses and instructors improve their
+        teaching. This year, we are experimenting with an online survey
+        system. If you have any feedback once you are finished, please
+        don't hesitate to <a href="mailto:Critical_Review@@brown.edu">e-mail us</a>.</p>
+    </div>
+    <div style="background-color: #f2ecda; border: 1px solid black" class="large-9 columns">
+        <h3>Start A Review:</h3>
+        <div class="row collapse">
+            <form action="submit-code.php" method="post">
+                <div class="row collapse">
+                    <div class="small-10 columns">
+                        <input type="text" name="survey_code" placeholder="Survey Code">
+                    </div>
+                    <div class="small-2 columns">
+                        <input type="submit" class="button postfix" value="Go" />
+                    </div>
+                </div>
+                <span class="">Instructions:</span> Enter above the code given to you by your instructor and click "Go".
+            </form>
+        </div>
+        <div data-alert class="alert-box warning">All surveys are now closed.<a href="#" class="close">&times;</a></div>
+    </div>
+</div>
+
+
+}
