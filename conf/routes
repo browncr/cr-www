@@ -10,6 +10,9 @@ GET     /about                      controllers.About.index
 GET     /about/history              controllers.About.history
 GET     /about/contact              controllers.About.contact
 GET     /about/write                controllers.About.write
+GET     /about/bio                  controllers.About.bio
+
+GET     /staff_photo/:edition/:uid/:version controllers.Bios.staffPhoto(edition: String, uid: Int, version: Int)
 
 GET     /help                       controllers.Help.index
 GET     /help/review                controllers.Help.review
