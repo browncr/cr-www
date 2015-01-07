@@ -17,6 +17,7 @@ object Review {
     CrReview2008.filter(rev =>
       rev.revision === 0 &&
       rev.departmentCode === dept &&
+      rev.edition <= Global.current_edition &&
       rev.courseNum === num)
     .map(rev => (rev.edition, rev.section))
     .list
