@@ -1,58 +1,33 @@
 @(execList: List[models.Tables.CrUserBios2005Row], editorList: List[models.Tables.CrUserBios2005Row], writerList: List[models.Tables.CrUserBios2005Row])
 
+@showBio(user: models.Tables.CrUserBios2005Row) = {
+  <div class="bio" style="padding: 0em 1em">
+      @if(user.hasPhoto){
+          <img src="/staff_photo/2014.2015.2/@user.userId/@user.photoVersion" alt="" style="float:left; margin-right:1em"></img>
+      }
+      <div class="header">
+          <h5>@user.name</h5>
+      </div>
+      Year: @user.year
+      <p class="text" style="font-style:italic">@user.bio</p>
+      <p class="clearer" style="clear:both; margin:0; display:block"></p>
+      <hr />
+  </div>
+}
+
 @main("Critical Review Staff Bios") {
   
   <h3>About the Staff</h3>
   
   <h4>Executive Staff</h4>
 
-  @execList.map { user =>
-    <div class="bio" style="padding: 0em 1em">
-        @if(user.hasPhoto){
-            <img src="/staff_photo/2014.2015.2/@user.userId/@user.photoVersion" alt="" style="float:left; margin-right:1em"></img>
-        }
-        <div class="header">
-            <h5>@user.name</h5>
-        </div>
-        Year: @user.year
-        <p class="text" style="font-style:italic">@user.bio</p>
-        <p class="clearer" style="clear:both; margin:0; display:block"></p>
-        <hr />
-    </div>
-  }
-  
+  @execList.map(showBio)
   
   <h4>Editors</h4>
   
-  @editorList.map { user =>
-    <div class="bio" style="padding: 0em 1em">
-        @if(user.hasPhoto){
-            <img src="/staff_photo/2014.2015.2/@user.userId/@user.photoVersion" alt="" style="float:left; margin-right:1em"></img>
-        }
-        <div class="header">
-            <h5>@user.name</h5>
-        </div>
-        Year: @user.year
-        <p class="text" style="font-style:italic">@user.bio</p>
-        <p class="clearer" style="clear:both; margin:0; display:block"></p>
-        <hr />
-    </div>
-  }
+  @editorList.map(showBio)
   
   <h4>Writers</h4>
   
-  @writerList.map { user =>
-    <div class="bio" style="padding: 0em 1em">
-        @if(user.hasPhoto){
-            <img src="/staff_photo/2014.2015.2/@user.userId/@user.photoVersion" alt="" style="float:left; margin-right:1em"></img>
-        }
-        <div class="header">
-            <h5>@user.name</h5>
-        </div>
-        Year: @user.year
-        <p class="text" style="font-style:italic">@user.bio</p>
-        <p class="clearer" style="clear:both; margin:0; display:block"></p>
-        <hr />
-    </div>
-  }
+  @writerList.map(showBio)
 } 
