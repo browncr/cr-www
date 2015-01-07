@@ -3,8 +3,8 @@
 @general(title) {
 
 <div id="content" class="view row">
-    <div style="background-color: #0a4b5c; border: 1px solid black; color: white" class="stats-sidebar large-3 columns">
-        <form>
+    <div style="background-color: #0a4b5c; border: 1px solid black; color: white; padding-bottom: 1em; text-align: center" class="stats-sidebar large-3 columns">
+        <form id="cr-search-form">
             <div class="row">
                 <div class="large-12 columns">
                     <label>Course Code
@@ -26,11 +26,22 @@
                     </label>
                 </div>
             </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <input type="checkbox" name="fall" value="1" id="fall-checkbox" checked="checked"><label for="fall-checkbox">Fall</label>
+                    <input type="checkbox" name="spring" value="1" id="spring-checkbox" checked="checked"><label for="spring-checkbox">Spring</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <input type="submit" value="Search" />
+                </div>
+            </div>
         </form>
         <a href="/help/search">Search Help</a>
     </div>
-    <div style="background-color: #f2ecda; border: 1px solid black" class="large-9 columns">
-        @content
+    <div style="background-color: #f2ecda; border: 1px solid black; padding-bottom: 1em;" class="large-9 columns">
+      @content
     </div>
 </div>
 }
