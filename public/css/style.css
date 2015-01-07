@@ -1,0 +1,68 @@
+/* Styles for the search box */
+
+form#cr-search-form {
+  margin: 1em 0em;
+}
+
+form#cr-search-form label {
+    color: #F2ECDA;
+}
+
+/* Styles for tabs on the side of review pages */
+
+.tabs.vertical dd:first-child {
+    border-top: 1px solid black;
+}
+
+.tabs.vertical dd:last-child {
+    border-bottom: 1px solid black;
+}
+
+.tabs.vertical dd {
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+
+.tabs.radius.vertical dd:first-child a,
+.tabs.radius.vertical dd:first-child span.multi-section-semester {
+    -moz-border-radius-bottomleft: 0px;
+    -moz-border-radius-topleft: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    -webkit-border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    -moz-border-radius-topright: 3px;
+    -webkit-border-top-right-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.tabs.radius.vertical dd:last-child a,
+.tabs.radius.vertical dd:last-child span.multi-section-semester {
+    -moz-border-radius-topright: 0px;
+    -moz-border-radius-bottomright: 0px;
+    -webkit-border-top-right-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    -moz-border-radius-bottomright: 3px;
+    -webkit-border-bottom-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.tabs dd > a,
+.tabs dd > span.multi-section-semester {
+    display: block;
+    background: #efefef;
+    color: #222222;
+    padding: 0rem 0.5rem;
+    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+}
+
+.tabs dd > a.section-link {
+    text-align: center;
+}
+
+.tabs.semesters dd a {
+    text-decoration: underline;
+}

@@ -1,0 +1,52 @@
+@(review: models.Tables.CrReview2008Row, offerings: List[(String, List[String])])
+
+@import common.Codes._
+@import common.Review._
+
+@tabs(dept: String, num: String, title: String) = {
+  <dl class="tabs radius vertical" style="padding-right: 1em; width: auto;" data-tab>
+    <dd class="active"><a href="?tab=content">Review</a></dd>
+    <dd><a href="?tab=stats">Graph</a></dd>
+    <dd><a href="?tab=demographics">Demographics</a></dd>
+
+    @if(offerings.length > 0) {
+      <dd><span class="multi-section-semester">&nbsp;</span></dd>
+    }
+
+    @offerings.foldLeft(Html("")) { case (curr, kvpair) =>
+      @curr
+      @defining(make_cis_semester(kvpair._1).get) { offered =>
+      @defining(offered.replaceAll("""^([^-]+)-(.+)$""", """$2 $1""")) { sem =>
+      @kvpair._2 match {
+        case section::Nil => {
+          <dd><a href="@course_link(dept, num, offered, section)">
+            @sem
+          </a></dd>
+        }
+        case _::_ => {
+          <dd><span class="multi-section-semester">@sem</span></dd>
+          @kvpair._2.map { section =>
+            <dd><a class="section-link" href="@course_link(dept, num, offered, section)">
+              Section @section
+            </a></dd>
+          }
+        }
+        case Nil => {
+
+        }
+      }
+      }}
+    }
+  </dl>
+}
+
+@defining((review(2), review(3), review(11)))  { case (dept, num, title)  =>
+  @main(title + " - The Critical Review") {
+    <h1><a href="#">@dept</a> @num (<a href="#">@review(10)</a>)</h1>
+    <h2>@title</h2>
+    @tabs(dept, num, title)
+    <div xmlns="http://www.w3.org/1999/xhtml" class="review_content">
+      @markup_review_content(review(33))
+    </div>
+  }
+}

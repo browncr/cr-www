@@ -25,4 +25,6 @@ GET     /search                     controllers.Course.search
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET     /images/*file               controllers.OldRoutes.images(file)
 
-GET     /:dept/:num/:offering/:section controllers.Course.review(dept : String, num : String, offering : String, section : String)
+GET     /:dept/:num controllers.Course.twoTupleReview(dept: String, num: String, tab: String ?= "content")
+GET     /:dept/:num/:offering controllers.Course.threeTupleReview(dept: String, num: String, offering: String, tab: String ?= "content")
+GET     /:dept/:num/:offering/:section controllers.Course.fourTupleReview(dept: String, num: String, offering: String, section: String, tab: String ?= "content")
