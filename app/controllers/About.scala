@@ -25,7 +25,11 @@ object About extends Controller {
     Ok(views.html.about_write())
   }
   
-  def bio = DBAction { implicit request =>
+  def faq = TODO
+  
+  def new_site = TODO
+  
+  def bios = DBAction { implicit request =>
       val userList = CrUserBios2005.filter(usr => usr.edition === "2014.2015.2")
       val execList = userList.filter(usr => usr.lev >= 4.toByte).list
       val editorList = userList.filter(usr => usr.lev === 3.toByte).list
@@ -33,8 +37,6 @@ object About extends Controller {
       
       Ok(views.html.about_bio(execList, editorList, writerList))
   }
-  
-  def editBio(id: String) = TODO
 
 }
 

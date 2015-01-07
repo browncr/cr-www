@@ -10,21 +10,43 @@ GET     /about                      controllers.About.index
 GET     /about/history              controllers.About.history
 GET     /about/contact              controllers.About.contact
 GET     /about/write                controllers.About.write
-GET     /about/bio                  controllers.About.bio
+GET     /about/bios                 controllers.About.bios
+GET     /about/faq                  controllers.About.faq
+GET     /about/new_site             controllers.About.new_site
 
-GET     /staff_photo/:edition/:uid/:version controllers.Bios.staffPhoto(edition: String, uid: Int, version: Int)
+# Staff photos
+GET     /staff_photo/:edition/:uid/*fluff controllers.Bios.staffPhoto(edition: String, uid: Int, fluff: String)
 
+# Help pages
 GET     /help                       controllers.Help.index
 GET     /help/review                controllers.Help.review
 GET     /help/search                controllers.Help.search
 GET     /help/instructor_names      controllers.Help.instructor_names
 
+# Funny quotes
+#GET    /quotes                     controllers.Quotes.index
+
+# Feedback
+GET    /feedback                   controllers.Feedback.feedback
+GET    /feedback/thanks            controllers.Feedback.thanks
+
+# Search
 GET     /search                     controllers.Course.search
+
+# Professor
+#GET     /professor/:professor_name  ?   #should search for all courses taught by this professor
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET     /images/*file               controllers.OldRoutes.images(file)
 
+
 GET     /:dept/:num controllers.Course.twoTupleReview(dept: String, num: String, tab: String ?= "content")
 GET     /:dept/:num/:offering controllers.Course.threeTupleReview(dept: String, num: String, offering: String, tab: String ?= "content")
 GET     /:dept/:num/:offering/:section controllers.Course.fourTupleReview(dept: String, num: String, offering: String, section: String, tab: String ?= "content")
+
+#Backwards Compatibility
+#backwards_compat2
+GET     /cr_xml.php                 controllers.OldRoutes.cr_xml(action: String ?= "", static: String ?= "")
+
+#remember to support backwards_compat1
