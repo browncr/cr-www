@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tally-graph xmlns="http://www.thecriticalreview.org/xmlns/graph">
+	<group name="Structure">
+		<q id="tal1">Goals were clearly stated</q>
+		<q id="tal2">Exams/assignments relevant</q>
+		<q id="tal3">Grading policy clear and fair</q>
+		<q id="tal4">Feedback throughout semester</q>
+	</group>
+	<group name="Instructor">
+		<q id="tal5">I learned a lot from instructor</q>
+		<q id="tal6">Aware of level of understanding</q>
+		<q id="tal7">Organized class time well</q>
+		<q id="tal8">Motivated me to succeed</q>
+	</group>
+	<group name="Content">
+		<q id="tal9">Assigned readings worthwhile</q>
+		<q id="tal10">Homework exercises beneficial</q>
+		<q id="tal11">Lectures/discussions relevant</q>
+		<q id="tal12">Materials/activities useful</q>
+	</group>
+	<group name="Skills">
+		<q id="tal13">Class was difficult</q>
+		<q id="tal14">Accomplished course goals</q>
+		<q id="tal15">Apply new principles elsewhere</q>
+		<q id="tal16">I loved what I got out of course</q>
+	</group>
+</tally-graph>

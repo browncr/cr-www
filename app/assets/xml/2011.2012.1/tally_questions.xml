@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/xslt/tally_base.xslt"?>
+<tally>
+	<options id="standard">
+		<option name="1" value="1">
+			<input>1</input>
+		</option>
+		<option name="2" value="2">
+			<input>2</input>
+		</option>
+		<option name="3" value="3">
+			<input>3</input>
+		</option>
+		<option name="4" value="4">
+			<input>4</input>
+		</option>
+		<option name="N/A" value="5">
+			<input>5</input>
+			<input>N</input>
+		</option>
+	</options>
+	<options id="onefour">
+		<option name="1" value="1">
+			<input>1</input>
+		</option>
+		<option name="2" value="2">
+			<input>2</input>
+		</option>
+		<option name="3" value="3">
+			<input>3</input>
+		</option>
+		<option name="4" value="4">
+			<input>4</input>
+		</option>
+	</options>
+	<options id="yesno">
+		<option name="Yes" value="Y">
+			<input>Y</input>
+			<input>1</input>
+		</option>
+		<option name="No" value="N">
+			<input>N</input>
+			<input>2</input>
+		</option>
+	</options>
+	<questions>
+		<group name="Structure">
+			<question id="clear-goals" options="standard" course-weight="1">
+				<long>Goals and objectives were clearly stated</long>
+				<short>Goals clearly stated</short>
+			</question>
+			<question id="grading-speed" options="standard" course-weight="1">
+				<long>Assignments were graded in a timely fashion</long>
+				<short>Timely grading</short>
+			</question>
+			<question id="grading-fairness" options="standard" course-weight="1.5">
+				<long>Grading policy was clear and fair</long>
+				<short>Fair grading</short>
+			</question>
+		</group>
+		<group name="Content">
+			<question id="readings" options="standard" course-weight="1">
+				<long>Assigned readings were worthwhile</long>
+				<short>Readings worthwhile</short>
+			</question>
+			<question id="assignments" options="standard" course-weight="1">
+				<long>Assignments were related to course goals</long>
+				<short>Assignments related</short>
+			</question>
+			<question id="class-materials" options="standard" course-weight="1">
+				<long>In-class materials and activities (notes, handouts, overheads, etc.) were useful</long>
+				<short>Materials useful</short>
+			</question>
+			<question id="difficult" options="standard">
+				<long>I found this course difficult</long>
+				<short>Difficult</short>
+			</question>
+			<question id="learned" options="standard" course-weight="2">
+				<long>I learned a lot in this course</long>
+				<short>Learned a lot</short>
+			</question>
+			<question id="loved" options="standard" course-weight="3">
+				<long>I loved this course</long>
+				<short>Loved course</short>
+			</question>
+			<question id="non-concs" options="standard">
+				<long>I would recommend this course to non-concentrators</long>
+				<short>Non-concentrators</short>
+			</question>
+		</group>
+		<group name="Instructor(s)">
+			<question id="effective" options="standard" prof-weight="2">
+				<long>Presented material effectively</long>
+				<short>Effective presentation</short>
+			</question>
+			<question id="efficient" options="standard" prof-weight="1.5">
+				<long>Used class periods efficiently</long>
+				<short>Efficient class period</short>
+			</question>
+			<question id="pacing" options="standard" prof-weight="1">
+				<long>Paced the semester appropriately</long>
+				<short>Paced semester</short>
+			</question>
+			<question id="motivated" options="standard" prof-weight="1.5">
+				<long>Motivated me to succeed</long>
+				<short>Motivated to succeed</short>
+			</question>
+			<question id="feedback-available" options="standard" prof-weight="1">
+				<long>I could get feedback when needed</long>
+				<short>Feedback available</short>
+			</question>
+			<question id="feedback-useful" options="standard" prof-weight="1">
+				<long>Feedback was useful</long>
+				<short>Feedback useful</short>
+			</question>
+		</group>
+		<group name="About Me">
+			<question id="conc">
+				<long>I am a concentrator in this department</long>
+				<short>Concentrator</short>
+				<help>Enter C/N/D</help>
+				<option name="Yes" value="C">
+					<input>Y</input>
+					<input>C</input>
+					<input>1</input>
+				</option>
+				<option name="No" value="N">
+					<input>N</input>
+					<input>2</input>
+				</option>
+				<option name="Undecided" value="D">
+					<input>U</input>
+					<input>D</input>
+					<input>3</input>
+				</option>
+			</question>
+			<question id="requirement" options="yesno">
+				<long>I am taking this course to satisfy a requirement</long>
+				<short>Requirement</short>
+				<help>Enter Y/N</help>
+			</question>
+			<question id="graded" options="yesno">
+				<long>I am taking this course for a grade</long>
+				<short>For a grade</short>
+				<help>Enter Y/N</help>
+			</question>
+			<question id="grade">
+				<long>I expect my grade to be</long>
+				<short>Grade</short>
+				<help>Enter A/B/C/S/N</help>
+				<option name="A" value="A">
+					<input>A</input>
+					<input>1</input>
+				</option>
+				<option name="B" value="B">
+					<input>B</input>
+					<input>2</input>
+				</option>
+				<option name="C" value="C">
+					<input>C</input>
+					<input>3</input>
+				</option>
+				<option name="S" value="S">
+					<input>S</input>
+					<input>4</input>
+				</option>
+				<option name="NC" value="NC">
+					<input>N</input>
+					<input>5</input>
+				</option>
+			</question>
+			<question id="attendance">
+				<long>I attend this fraction of classes</long>
+				<short>Attendance</short>
+				<help>Enter 1-4</help>
+				<option name="1" value="1">
+					<input>1</input>
+				</option>
+				<option name=">2/3" value="2">
+					<input>2</input>
+				</option>
+				<option name=">1/3" value="3">
+					<input>3</input>
+				</option>
+				<option name="1/3-0" value="4">
+					<input>4</input>
+				</option>
+			</question>
+			<question id="minhours" type="freeform">
+				<long>Hours per week I spend on this class: Typically</long>
+				<short>Hours typically</short>
+			</question>
+			<question id="maxhours" type="freeform">
+				<long>Hours per week I spend on this class: At most</long>
+				<short>Hours at most</short>
+			</question>
+		</group>
+	</questions>
+</tally>

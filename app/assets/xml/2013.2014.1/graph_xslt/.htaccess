@@ -1,0 +1,6 @@
+AddType application/xslt+xml .xslt
+AddType application/xml .xml
+AddType text/html .html
+AddHandler server-parsed .html
+AddType application/xml .sxml
+AddHandler server-parsed .sxml

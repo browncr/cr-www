@@ -1,0 +1,23 @@
+Note: $answers can be specified in two formats.
+
+The first format is raw tally data, where a <q> element looks like this:
+	<q id="conc"><a>C</a><a>C</a><a>N</a><a>C</a><a>D</a><a>N</a><a>N</a></q>
+(i.e. there is a separate <a> element for each individual response, and the <a> element)
+contains the answer ID as string content)
+
+The second format is tally summary data, where a <q> element looks like this:
+	<q id="conc"><a id="C">3</a><a id="N">3</a><a id="D">1</a></q>
+(i.e. there is one <a> element for each possible answer ID, and the content is the number
+of people who responded with that answer ID)
+
+Therefore, when we need to count how many people answered a given way, we need to take
+into account both formats, like this:
+
+	count($answers[not(@id) and string() = $desired_id]) + sum($answers[@id = $desired_id])
+
+First we count the number of <a> elements with no ID attribute having the desired answer ID
+as their string content (format 1).
+
+Then we add the value of the <a> element with the desired answer ID in its ID attribute (format 2).
+(Although there's only one such <a> element, we use sum() because sum() won't return NaN if there
+happens to not be any <a> elements with the desired answer ID.)

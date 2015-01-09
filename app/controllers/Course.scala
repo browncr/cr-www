@@ -1,6 +1,7 @@
 package controllers
 
 import play.api._
+import play.api.Play.current
 import play.api.mvc._
 import models.Tables._
 import play.api.db.slick._
@@ -8,9 +9,25 @@ import play.api.db.slick.Config.driver.simple._
 import play.api.db.slick.Config.driver.simple.{Session => DBSession}
 import scala.slick.lifted.CanBeQueryCondition
 import common.Codes._
+import common.Tally._
 import common.Review._
 import common._
 
+import java.nio.file._
+import java.io.OutputStreamWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+
+import javax.xml.xpath._
+import javax.xml.parsers._
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+
+//import org.apache.xpath._
 
 object Course extends Controller {
 
@@ -93,6 +110,77 @@ object Course extends Controller {
       case None =>
         NotFound(<h1>Bad semester: {offering}</h1>)
     }
+  }
+  
+  def getXMLFilePath(name: String, edition: String) : Option[Path] = {
+    if (Files.exists(Play.getFile("/app/assets/xml/" + edition + "/" + name).toPath())) {
+      play.Logger.debug("Found in /app/assets/xml/" + edition + "/" + name)
+      return Some(Play.getFile("/app/assets/xml/" + edition + "/" + name).toPath());
+    } else if (Files.exists(Play.getFile("/app/assets/xml/all/" + name).toPath())) {
+      play.Logger.debug("Found in /app/assets/xml/" + edition + "/" + name)
+      return Some(Play.getFile("/app/assets/xml/all/" + name).toPath());
+    } else {
+      play.Logger.debug("Found in /app/assets/xml/" + edition + "/" + name)
+      return None
+    }
+  }
+  
+  def graph(id: Int, graph_type: String, pie_radius: Option[Int], width: Option[Int], height: Option[Int]) = DBAction { implicit request =>
+    
+    val review = CrReview2008.filter(rev => rev.id === id).list.head
+    val tally_xml = getTally(review)
+    if (tally_xml.isEmpty) {
+      play.Logger.debug("XML not found")
+    }
+    val xsltPath = getXMLFilePath("graph_xslt/graphs/standalone.xslt", review(1));
+    play.Logger.debug(xsltPath.toString)
+    val graphLayoutPath = getXMLFilePath("graphs/" + graph_type + ".xml", review(1));
+    val tallyColorsPath = getXMLFilePath("tally_colors.xml", review(1));
+    
+    val outputByteStream = new ByteArrayOutputStream()
+    val outputStreamResult = new StreamResult(outputByteStream)
+    
+    var xsltOptions: Option[String] = pie_radius match {
+      case Some(radius) => Some(radius.toString)
+      case None => None
+    }
+    /*
+    var rsvgOptions: Option[String] = (width, height) match {
+      case (Some(w), Some(h)) => Some(" - w " + w.toString + " - h " + h.toString)
+      case (_, _) => None
+    }*/
+    
+    val tFactory = TransformerFactory.newInstance();
+    val transformer = tFactory.newTransformer(new StreamSource(xsltPath.get.toString()));
+    
+    
+    val documentBuilderFactory = DocumentBuilderFactory.newInstance()
+    val documentBuilder = documentBuilderFactory.newDocumentBuilder()
+    val xpathFactory = XPathFactory.newInstance()
+    val xpath = xpathFactory.newXPath()
+    val expressionA = xpath.compile("/")
+    val expressionB = xpath.compile("/tally-colors")
+    
+    graphLayoutPath match {
+      case(Some(path)) => {
+        val document = documentBuilder.parse(path.toFile())
+        transformer.setParameter("graph-layout", expressionA.evaluate(document, XPathConstants.NODESET) /*"document(\'" + path + "\')/tally-colors"*/)
+        //transformer.setParameter("graph-layout", document.getChildNodes() /*"document(\'" + path + "\')"*/)
+      }
+      case(None) =>
+    }
+    tallyColorsPath match {
+      case(Some(path)) => {
+        val document = documentBuilder.parse(path.toFile())
+        transformer.setParameter("tally-colors", expressionB.evaluate(document, XPathConstants.NODESET) /*"document(\'" + path + "\')/tally-colors"*/)
+      }
+      case(None) =>
+    }
+    val tallyLength = tally_xml.get.length().toInt
+    val tallyStream = new ByteArrayInputStream(tally_xml.get.getBytes(1, tallyLength))
+    transformer.transform(new StreamSource(tallyStream), outputStreamResult);
+    
+    Ok(outputByteStream.toByteArray()).as("image/svg+xml")
   }
 
 }

@@ -44,6 +44,9 @@
   @main(title + " - The Critical Review") {
     <h1><a href="/@dept">@dept</a> @num (<a href="#">@review(10)</a>)</h1>
     <h2>@title</h2>
+    
+    <img src="/graph/@review(0)"></img>
+    
     @tabs(dept, num, title)
     <div xmlns="http://www.w3.org/1999/xhtml" class="review_content">
       @markup_review_content(review(33))
