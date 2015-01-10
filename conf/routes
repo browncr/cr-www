@@ -2,8 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
+# Home page and favicon.ico
 GET     /                           controllers.Application.index
+GET     /favicon.ico                controllers.Assets.at(path="/public", file="images/favicon.ico")
 
 # About pages
 GET     /about                      controllers.About.index

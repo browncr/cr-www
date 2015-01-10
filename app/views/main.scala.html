@@ -4,25 +4,25 @@
 
 <div id="content" class="view row">
     <div style="background-color: #0a4b5c; border: 1px solid black; color: white; padding-bottom: 1em; text-align: center" class="stats-sidebar large-3 columns">
-        <form id="cr-search-form">
+        <form action="/search" id="cr-search-form">
             <div class="row">
                 <div class="large-12 columns">
                     <label>Course Code
-                        <input type="text" /> 
+                        <input name="course_code" type="text" />
                     </label>
                 </div>
             </div>
             <div class="row">
                 <div class="large-12 columns">
                     <label>Instructor
-                        <input type="text" placeholder="Carberry, Josiah" /> 
+                        <input name="professor" type="text" placeholder="Carberry, Josiah" />
                     </label>
                 </div>
             </div>
             <div class="row">
                 <div class="large-12 columns">
                     <label>Title
-                        <input type="text" placeholder="Introduction to Psychoceramics" /> 
+                        <input name="title" type="text" placeholder="Introduction to Psychoceramics" />
                     </label>
                 </div>
             </div>
