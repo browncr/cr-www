@@ -32,7 +32,7 @@ GET    /feedback                   controllers.Feedback.feedback
 GET    /feedback/thanks            controllers.Feedback.thanks
 
 # Search
-GET     /search                     controllers.Course.search
+GET     /search                     controllers.Course.search(sort: String ?= "coursecode")
 
 # Professor
 #GET     /professor/:professor_name  ?   #should search for all courses taught by this professor

@@ -16,7 +16,7 @@
     @offerings.foldLeft(Html("")) { case (curr, kvpair) =>
       @curr
       @defining(make_cis_semester(kvpair._1).get) { offered =>
-      @defining(offered.replaceAll("""^([^-]+)-(.+)$""", """$2 $1""")) { sem =>
+      @defining(make_printable_semester(offered)) { sem =>
       @kvpair._2 match {
         case section::Nil => {
           <dd><a href="@course_link(dept, num, offered, section)">

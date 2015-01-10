@@ -45,6 +45,10 @@ object Codes {
     }
   }
 
+  def make_printable_semester(semester: String) = {
+    semester.replaceAll("""^([^-]+)-(.+)$""", """$2 $1""")
+  }
+
   /**
    * Given an edition, department, course number, and section, return a CIS
    * course code for it CIS course codes look like: ENGN:2911C:2010-Spring:S01

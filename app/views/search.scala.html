@@ -1,0 +1,36 @@
+@(courses: List[models.Tables.CrReview2008Row])
+
+@import common.Codes._
+@import common.Review._
+
+@main("Search Results") {
+
+  <h1>Search Results</h1>
+
+  <table class="results">
+      <thead><tr>
+          <th>Course&nbsp;Code</th>
+          <th>Title</th>
+          <th>Professor</th>
+          <th>Size</th>
+          <th>P.&nbsp;Avg.</th>
+          <th>C.&nbsp;Avg.</th>
+          <th>Last&nbsp;Review</th>
+      </tr></thead>
+      @courses.map { course =>
+      @defining(make_cis_semester(course(1)).get) { offered =>
+      @defining(course_link(course(2), course(3), offered, course(4))) { link =>
+        <tr>
+          <td><a href="@link">@course(2)@course(3)</a></td> @* Course code *@
+          <td><a href="@link">@course(11)</a></td> @* Title *@
+          <td>@course(10)</td> @* Professor *@
+          <td>@course(23)</td> @* Course size *@
+          <td>@truncate_avg(course(27))</td> @* Professor average *@
+          <td>@truncate_avg(course(28))</td> @* Course average *@
+          <td>@make_printable_semester(offered)</td>
+          <!-- <li>@course(2) @course(3) - @course(11) (@course(1))</li> -->
+        </tr>
+      }}
+      }
+  </table>
+}

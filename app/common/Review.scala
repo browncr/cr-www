@@ -27,6 +27,12 @@ object Review {
     .sorted
   }
 
+  def truncate_avg(avg: Float) = {
+    f"$avg%.2f"
+  }
+
+  val deptRegex = """ *([A-Za-z]{2,4}([ ,]+[A-Za-z]{2,4})*) *""".r
+  val courseRegex = """\b([A-Z]{3,4}) *([0-9]{4})(-?([A-Z]))?(-S([0-9]{1,2}))?\b""".r
 
   // Given the textual contents of a review, mark it up with XML
   def markup_review_content(content: String) = {
@@ -41,7 +47,7 @@ object Review {
         } else {
             xml_content += "<p>";
         }
-        xml_content += scala.xml.Utility.escape(para).replaceAll("""\b([A-Z]{3,4}) *([0-9]{4})(-?([A-Z]))?(-S([0-9]{1,2}))?\b""", """<a href="/$1/$2$4">$0</a>""") + "</p>"
+        xml_content += courseRegex.replaceAllIn(scala.xml.Utility.escape(para), """<a href="/$1/$2$4">$0</a>""") + "</p>"
     }
     Html(xml_content);
   }

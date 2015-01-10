@@ -8,6 +8,49 @@ form#cr-search-form label {
     color: #F2ECDA;
 }
 
+/* Styles for the search results table */
+
+table.results tr th, table.results tr td {
+    padding: 0.2rem 0.1rem;
+}
+
+/* Styles for search help page */
+
+.search-example {
+    margin-top: -10px;
+    font-size: 75%;
+    font-style: italic;
+}
+
+ul.departments {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-left: 1em;
+}
+
+@media only screen and (min-width: 40.063em) {
+    ul.departments {
+        columns: 2;
+        -moz-columns: 2;
+        -webkit-columns: 2;
+    }
+}
+
+.departments li {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 30em;
+    padding-left: 1.5em;
+}
+
+.departments input {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 /* Styles for tabs on the side of review pages */
 
 .tabs.vertical dd:first-child {

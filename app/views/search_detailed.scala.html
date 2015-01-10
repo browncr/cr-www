@@ -1,0 +1,52 @@
+@(departments: List[models.Tables.CrDepartment2005Row])
+
+@main("Search for courses") {
+<h3>Search by course or department code</h3>
+
+<form action="/search" method="get" id="full-search">
+  <p>You can search by entering the code of the department(s) or the specific course you are interested in.</p>
+  <p class="search-example">For example: "CSCI", "CSCI, MATH, APMA", "CS33"</p>
+  <p><input type="text" name="course_code" placeholder="Course code" value="" /></p>
+  <p><input type="submit" value="Search" /></p>
+
+  <h3>Search by instructor name, course title, and/or department</h3>
+  <p>You can use any combination of the below fields to search.</p>
+
+  <h4>Semester offered</h4>
+  <p>
+    <label><input type="checkbox" name="fall" value="1" checked="checked" /> Include Fall courses</label>
+    <label><input type="checkbox" name="spring" value="1" checked="checked" /> Include Spring courses</label>
+  </p>
+
+  <h4>Instructor</h4>
+  <p>You can search by the last name, or the last and first name, of the professor.</p>
+  <p class="search-example">For example: "Carberry", "Carberry, Josiah"</p>
+  <p><input type="text" name="professor" placeholder="Instructor" value="" /></p>
+
+  <h4>Title</h4>
+  <p>You can search by entering the full or partial title of the course.</p>
+  <p class="search-example">For example: "Introduction to Psychoceramics", "psychoceramics"</p>
+  <p><input type="text" name="title" placeholder="Title" value="" /></p>
+
+  <h4>Departments</h4>
+  <p>You can limit your search by choosing one or multiple departments.</p>
+
+  <div><ul class="departments">
+  @departments.map { department =>
+    <li>
+      <label title="@department.name">
+          <input type="checkbox" name="department[]" value="@department.bannerCode" />
+          <span>@department.name (@department.bannerCode)</span>
+      </label>
+    </li>
+  }
+  </ul></div>
+
+  <h4>Attributes</h4>
+
+  <p>You can limit your search to courses that have been reviewed in the past 4 years.</p>
+  <input type="checkbox" name="attribute_recent" value="1" id="sidebar_search_attribute_recent" /> <label for="sidebar_search_attribute_recent">Recently reviewed</label>
+  <div class="group submit"><p><input type="submit" value="Search" /></p></div>
+
+</form>
+}
