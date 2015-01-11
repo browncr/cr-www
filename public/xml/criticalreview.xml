@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+	<ShortName>Critical Review</ShortName>
+	<Description>Search The Critical Review at Brown University</Description>
+	<Image height="16" width="16" type="image/x-icon">http://www.thecriticalreview.org/favicon.ico</Image>
+	<Url type="text/html" method="get" template="http://www.thecriticalreview.org/search?q={searchTerms};sourceid=open-search"/>
+</OpenSearchDescription>
