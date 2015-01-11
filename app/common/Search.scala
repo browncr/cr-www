@@ -110,10 +110,10 @@ object Search {
   def process(sr: SearchRequest)(implicit session: DBSession) = {
     val checkDept = if (sr.departments.length > 0) {
       for {
-        rev <- CrReview2008
+        rev <- searchCourses
         if rev.departmentCode inSetBind sr.departments
       } yield rev
-    } else CrReview2008
+    } else searchCourses
 
     val checkCode = sr.courseCode match {
       case Some(code) => checkDept.filter(_.courseNum === code)
@@ -130,24 +130,31 @@ object Search {
       case None => checkProf
     }
 
-    val revs = checkTitle.filter(rev => // Only fetch good, published reviews
-      rev.revision === 0 &&
-      rev.edition <= Global.current_edition
-    )
-
-    val sorted = sortSearch(revs)
+    val sorted = sortSearch(checkTitle)
 
     filterDups(sorted.list)
   }
 
+  def getBannerCode = Compiled { dept: Column[String] =>
+    CrDepartment2005
+    .filter(rev => rev.shortCode === dept || rev.bannerCode === dept)
+    .map(_.bannerCode)
+    .take(1)
+  }
+
   /**
-   * TODO
+   * Takes a list of department codes in either short (e.g. CS) or banner
+   * (e.g. CSCI) form and returns a list of the same departments' banner codes
    */
-  def getBannerCodes[A](id: A) = id
+  def getBannerCodes(depts: Traversable[String])(implicit session: DBSession) =
+    CrDepartment2005
+    .filter(rev => (rev.shortCode inSetBind depts) || (rev.bannerCode inSetBind depts))
+    .map(_.bannerCode)
+    .list
 
   def cleanForLike(str: String) = str.replaceAll("%", "[%]").toLowerCase
 
-  def extractDepts(sr: SearchRequest) = {
+  def extractDepts(sr: SearchRequest)(implicit session: DBSession) = {
     (sr.courseCode, sr.quickSearch) match {
       case (Some(deptRegex(depts, _)), _) =>
         val newDepts = sr.departments ++ getBannerCodes(depts.split(", "))

@@ -33,8 +33,52 @@ object Review {
 
   val deptRegex = """ *([A-Za-z]{2,4}([ ,]+[A-Za-z]{2,4})*) *""".r
   val courseRegex = """\b([A-Z]{3,4}) *([0-9]{4})(-?([A-Z]))?(-S([0-9]{1,2}))?\b""".r
+  val courseSearchRegex = """ *([A-Za-z]{2,4}) *([0-9]{1,4})([A-Za-z]?) *""".r
 
-  // Given the textual contents of a review, mark it up with XML
+  /**
+   * If a query forms a course code (e.g. "CSCI0310") according to the course
+   * search regular expression, this function will take care of adjusting
+   * the strings to be usable for searching for a course.
+   *
+   * This function strives to be as user-friendly as possible, and accepts
+   * the course code in a wide variety of shortened or non-standard forms. For
+   * example, you can specify:
+   *
+   *   - without leading zeros (CSCI310 (or even CSCI40 for CSC0040))
+   *   - with pre-banner department codes (CS0310)
+   *   - without the trailing zero (i.e. pre-Banner style) (CSCI031 or
+   *     CS031 or CS31)
+   *
+   * Note that sometimes it's ambiguous how a pre-Banner number should be
+   * translated.  For example, is CS190 CSCI1900 or CSCI0190?  In these
+   * instances, the 3rd element of the returned array (alt_num) is an
+   * alternative course number which should be tried in addition to the
+   * regular number.
+   */
+  def matchCourseCode(dept: String, num: String, letterRaw: String)(implicit session: DBSession) = {
+    val letter = if (letterRaw == null) "" else letterRaw
+    val fixedDept = if (dept.length == 2) {
+      Search.getBannerCode(dept.toUpperCase).list match {
+        case d::rest => Some(d)
+        case Nil => None
+      }
+    } else Some(dept.toUpperCase)
+    val (fixedNum, altNum) = num.length match {
+      case 1 => ("00" + num(0) + "0" + letter, None)
+      case 2 if num(1) == '0' => ("00" + num(0) + "0" + letter, None)
+      case 2 => ("0" + num + "0" + letter, None)
+      case 3 => (num + "0" + letter, Some("0" + num + letter))
+      case _ => (num + letter, None)
+    }
+    val a = (fixedDept, fixedNum, altNum)
+    play.Logger.debug(a.toString)
+    a
+  }
+
+
+  /**
+   * Given the textual contents of a review, mark it up with HTML
+   */
   def markup_review_content(content: String) = {
     val ulevel = 0 // TODO: track and store ulevel
     var xml_content = "";

@@ -18,17 +18,34 @@ object Course extends Controller {
     Ok(views.html.index("Your new application is ready."))
   }
 
+  def searchCourseCode(deptRaw: String, numRaw: String, letterRaw: String, sort: String)(implicit session: DBSession) = {
+    matchCourseCode(deptRaw, numRaw, letterRaw) match {
+      case (Some(dept), num, None) =>
+        Redirect(routes.Course.twoTupleReview(dept, num, "content"))
+      case (Some(dept), num, Some(altNum)) =>
+        val revs = Search.sortSearch(Search.searchCourses.filter(rev =>
+          rev.departmentCode === dept &&
+          (rev.courseNum === num || rev.courseNum === altNum)
+        )).list
+        val filtered = Search.filterDups(revs)
+        Ok(views.html.search(filtered))
+      case (None, _, _) =>
+        NotFound(<h1>There is no department named {deptRaw}</h1>)
+    }
+  }
+
   def search(sort: String) = DBAction { implicit request =>
     Search.form.bindFromRequest.fold(
       formWithErrors => BadRequest(<h1>Your search was bad: {formWithErrors}</h1>),
       { values =>
+        // The first two cases check to see if the user gave a specific
+        // course code. Since this is the most specific way to search for a
+        // course, redirect them if the course exists. Otherwise, error out.
         (values.courseCode, values.quickSearch) match {
-          case (Some(courseRegex(dept, num, _, letter, _, section)), _) =>
-            val cnum = if (letter == null) num else (num + letter)
-            Redirect(routes.Course.twoTupleReview(dept, cnum, "content"))
-          case (_, Some(courseRegex(dept, num, _, letter, _, section))) =>
-            val cnum = if (letter == null) num else (num + letter)
-            Redirect(routes.Course.twoTupleReview(dept, cnum, "content"))
+          case (Some(courseSearchRegex(dept, num, letter)), _) =>
+            searchCourseCode(dept, num, letter, sort)
+          case (_, Some(courseSearchRegex(dept, num, letter))) =>
+            searchCourseCode(dept, num, letter, sort)
           case _ =>
             Search.extractAll(values) match {
               case Search.SearchRequest(_, None, None, List(), None, _, _, _) =>
