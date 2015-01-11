@@ -40,6 +40,73 @@ object Search {
     "attribute_recent" -> optional(of[Boolean](booleanIntFormat))
   )(SearchRequest.apply)(SearchRequest.unapply))
 
+  def filterDups(revs: List[CrReview2008Row]) = {
+    var previousDept = ""
+    var previousCNum = ""
+    revs.flatMap({ course =>
+      val dept = course(2)
+      val cnum = course(3)
+      if (dept == previousDept && cnum == previousCNum) {
+        None
+      } else {
+        previousDept = dept
+        previousCNum = cnum
+        Some(course)
+      }
+    })
+  }
+
+  type ReviewQuery = Query[CrReview2008,CrReview2008#TableElementType,Seq]
+
+  /**
+   * Sorting
+   * Sort first by department code and course num so reviews for the same
+   * course are grouped. Then, prioritize reviews for the same course
+   * as follows:
+   *  1. We want actually published reviews first (sort DESC by active)
+   *  2. We want reviews with sufficient information (sort ASC by insufficient)
+   *  3. We want recent reviews (sort DESC by edition)
+   *  4. We want reviews with lots of respondents (sort DESC by num_respondents)
+   */
+  def sortSearch(query: ReviewQuery) = query.sortBy(rev =>
+      (rev.departmentCode.asc, rev.courseNum.asc, rev.active.desc, rev.insufficient.asc, rev.edition.desc, rev.numRespondents.desc)
+  )
+
+  val searchCourses =
+    CrReview2008.filter(rev => rev.revision === 0 && rev.edition <= Global.current_edition)
+
+  def searchByDepartmentRaw(query: ReviewQuery, dept: Column[String]) =
+    query.filter(_.departmentCode === dept)
+
+  val searchByDepartment = Compiled { dept: Column[String] =>
+      sortSearch(searchByDepartmentRaw(searchCourses, dept))
+  }
+
+  def sortFetch(query: ReviewQuery) = query.sortBy(r =>
+    (r.active.desc, r.insufficient.asc, r.edition.desc, r.numRespondents.desc)
+  )
+
+  def searchByCourseRaw(query: ReviewQuery, dept: Column[String], num: Column[String]) =
+    searchByDepartmentRaw(query, dept).filter(_.courseNum === num)
+
+  val getCourse = Compiled { (dept: Column[String], num: Column[String]) =>
+    sortFetch(searchByCourseRaw(searchCourses, dept, num)).take(1)
+  }
+
+  def searchCourseByEditionRaw(query: ReviewQuery, dept: Column[String], num: Column[String], edition: Column[String]) =
+    searchByCourseRaw(query, dept, num).filter(_.edition === edition)
+
+  val getCourseByEdition = Compiled { (dept: Column[String], num: Column[String], edition: Column[String]) =>
+    sortFetch(searchCourseByEditionRaw(searchCourses, dept, num, edition)).take(1)
+  }
+
+  def searchSpecificCourse(query: ReviewQuery, dept: Column[String], num: Column[String], edition: Column[String], section: Column[String]) =
+    searchCourseByEditionRaw(query, dept, num, edition).filter(_.section === section)
+
+  val getSpecificCourse = Compiled { (dept: Column[String], num: Column[String], edition: Column[String], section: Column[String]) =>
+    sortFetch(searchSpecificCourse(searchCourses, dept, num, edition, section)).take(1)
+  }
+
   def process(sr: SearchRequest)(implicit session: DBSession) = {
     val checkDept = if (sr.departments.length > 0) {
       for {
@@ -63,37 +130,14 @@ object Search {
       case None => checkProf
     }
 
-    var previousDept = ""
-    var previousCNum = ""
-
-    checkTitle.filter(rev => // Only fetch good, published reviews
+    val revs = checkTitle.filter(rev => // Only fetch good, published reviews
       rev.revision === 0 &&
       rev.edition <= Global.current_edition
     )
-    // Sorting
-    // Sort first by department code and course num so reviews for the same
-    // course are grouped. Then, prioritize reviews for the same course
-    // as follows:
-    //  1. We want actually published reviews first (sort DESC by active)
-    //  2. We want reviews with sufficient information (sort ASC by insufficient)
-    //  3. We want recent reviews (sort DESC by edition)
-    //  4. We want reviews with lots of respondents (sort DESC by num_respondents)
-    .sortBy(rev =>
-        (rev.departmentCode.asc, rev.courseNum.asc, rev.active.desc, rev.insufficient.asc, rev.edition.desc, rev.numRespondents.desc)
-    )
-    .list
-    .flatMap({ course =>
-      val dept = course(2)
-      val cnum = course(3)
-      if (dept == previousDept && cnum == previousCNum) {
-        None
-      } else {
-        previousDept = dept
-        previousCNum = cnum
-        Some(course)
-      }
 
-    })
+    val sorted = sortSearch(revs)
+
+    filterDups(sorted.list)
   }
 
   /**

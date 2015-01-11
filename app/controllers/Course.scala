@@ -40,19 +40,14 @@ object Course extends Controller {
       })
   }
 
-  def showReview[T  <: scala.slick.lifted.Column[_]](f: CrReview2008 => T, offerings: List[(String, List[String])])
-    (implicit session: DBSession, wt: CanBeQueryCondition[T]) = {
-    CrReview2008
-    .filter(f)
-    .filter(rev => // Only fetch good, published reviews
-      rev.revision === 0 &&
-      rev.edition <= Global.current_edition
-    )
-    .sortBy(r =>
-      (r.active.desc, r.insufficient.asc, r.edition.desc, r.numRespondents.desc)
-    )
-    .take(1)
-    .list match {
+  def searchDepartment(dept: String, sort: String) = DBAction { implicit request =>
+    val revs = Search.searchByDepartment(dept).list
+    val filtered = Search.filterDups(revs)
+    Ok(views.html.search(filtered))
+  }
+
+  def showReview(course: List[CrReview2008Row], offerings: List[(String, List[String])]) = {
+    course match {
       case course::rest => Ok(views.html.course(course, offerings))
       case Nil => NotFound(<h1>No such course</h1>)
     }
@@ -60,17 +55,14 @@ object Course extends Controller {
 
   def twoTupleReview(dept: String, num: String, tab: String) = DBAction { implicit request =>
     val offerings = getOfferings(dept, num)
-    showReview(rev => rev.departmentCode === dept && rev.courseNum === num, offerings)
+    showReview(Search.getCourse(dept, num).list, offerings)
   }
 
   def threeTupleReview(dept: String, num: String, offering: String, tab: String) = DBAction { implicit request =>
     parse_cis_semester(offering) match {
       case Some(edition) =>
         val offerings = getOfferings(dept, num)
-        showReview(rev =>
-          rev.departmentCode === dept &&
-          rev.courseNum === num &&
-          rev.edition === edition, offerings)
+        showReview(Search.getCourseByEdition(dept, num, edition).list, offerings)
       case None =>
         NotFound(<h1>Bad semester: {offering}</h1>)
     }
@@ -80,11 +72,7 @@ object Course extends Controller {
     parse_cis_semester(offering) match {
       case Some(edition) =>
         val offerings = getOfferings(dept, num)
-        showReview(rev =>
-          rev.departmentCode === dept &&
-          rev.courseNum === num &&
-          rev.edition === edition &&
-          rev.section === section, offerings)
+        showReview(Search.getSpecificCourse(dept, num, edition, section).list, offerings)
       case None =>
         NotFound(<h1>Bad semester: {offering}</h1>)
     }
