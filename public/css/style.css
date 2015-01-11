@@ -1,11 +1,43 @@
 /* Styles for the search box */
 
+#sidebar {
+    background-color: #0a4b5c;
+    border: 1px solid black;
+    color: white;
+    padding-bottom: 1em;
+    text-align: center
+}
+
 form#cr-search-form {
   margin: 1em 0em;
 }
 
 form#cr-search-form label {
     color: #F2ECDA;
+}
+
+#sidebar .deptselector {
+    border: solid 1px #999;
+    background: white;
+    margin: 0 auto;
+}
+
+#sidebar .deptselector .inner {
+    height: 150px;
+    overflow: auto;
+}
+
+#sidebar .deptselector label {
+    display: block;
+    text-align: left;
+    color: #222;
+    margin: 0em;
+    width: 33%;
+    float: left;
+}
+
+#sidebar .deptselector label input {
+    margin: 0em;
 }
 
 /* Styles for the search results table */

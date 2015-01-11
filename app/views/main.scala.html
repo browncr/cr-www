@@ -3,7 +3,7 @@
 @general(title) {
 
 <div id="content" class="view row">
-    <div style="background-color: #0a4b5c; border: 1px solid black; color: white; padding-bottom: 1em; text-align: center" class="stats-sidebar large-3 columns">
+    <div id="sidebar" class="stats-sidebar large-3 columns">
         <form action="/search" id="cr-search-form">
             <div class="row">
                 <div class="large-12 columns">
@@ -23,6 +23,24 @@
                 <div class="large-12 columns">
                     <label>Title
                         <input name="title" type="text" placeholder="Introduction to Psychoceramics" />
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Departments
+                        <div class="deptselector">
+                            <div class="inner">
+                                @Global.departments.map { department =>
+                                    <label title="@department.name">
+                                      <input type="checkbox" name="department[]" value="@department.bannerCode" />
+                                      <span>@department.bannerCode</span>
+                                    </label>
+                                }
+
+
+                            </div>
+                        </div>
                     </label>
                 </div>
             </div>

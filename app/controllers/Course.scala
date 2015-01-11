@@ -32,7 +32,7 @@ object Course extends Controller {
           case _ =>
             Search.extractAll(values) match {
               case Search.SearchRequest(_, None, None, List(), None, _, _, _) =>
-                Ok(views.html.search_detailed(CrDepartment2005.list))
+                Ok(views.html.search_detailed())
               case sr =>
                 Ok(views.html.search(Search.process(sr)))
             }

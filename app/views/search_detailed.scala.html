@@ -1,5 +1,3 @@
-@(departments: List[models.Tables.CrDepartment2005Row])
-
 @main("Search for courses") {
 <h3>Search by course or department code</h3>
 
@@ -32,7 +30,7 @@
   <p>You can limit your search by choosing one or multiple departments.</p>
 
   <div><ul class="departments">
-  @departments.map { department =>
+  @Global.departments.map { department =>
     <li>
       <label title="@department.name">
           <input type="checkbox" name="department[]" value="@department.bannerCode" />
