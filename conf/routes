@@ -44,7 +44,7 @@ GET     /images/*file               controllers.OldRoutes.images(file)
 GET     /:dept controllers.Course.searchDepartment(dept: String, sort: String ?= "coursecode")
 
 # Courses and graphs
-GET     /graph/:id                  controllers.Course.graph(id: Int, graph_type: String ?= "tally", pie_radius: Option[Int] ?= None, width: Option[Int] ?= None, height: Option[Int] ?= None)
+#GET     /graph/:id                  controllers.Course.graph(id: Int, graph_type: String ?= "tally", pie_radius: Option[Int] ?= None, width: Option[Int] ?= None, height: Option[Int] ?= None)
 
 GET     /:dept/:num controllers.Course.twoTupleReview(dept: String, num: String, tab: String ?= "content")
 GET     /:dept/:num/:offering controllers.Course.threeTupleReview(dept: String, num: String, offering: String, tab: String ?= "content")

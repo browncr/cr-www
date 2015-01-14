@@ -1,7 +1,6 @@
 package controllers
 
 import play.api._
-import play.api.Play.current
 import play.api.mvc._
 import models.Tables._
 import play.api.db.slick._
@@ -9,25 +8,8 @@ import play.api.db.slick.Config.driver.simple._
 import play.api.db.slick.Config.driver.simple.{Session => DBSession}
 import scala.slick.lifted.CanBeQueryCondition
 import common.Codes._
-import common.Tally._
 import common.Review._
 import common._
-
-import java.nio.file._
-import java.io.OutputStreamWriter;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-
-import javax.xml.xpath._
-import javax.xml.parsers._
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
-//import org.apache.xpath._
 
 object Course extends Controller {
 
@@ -80,23 +62,25 @@ object Course extends Controller {
     Ok(views.html.search(filtered))
   }
 
-  def showReview(course: List[CrReview2008Row], offerings: List[(String, List[String])]) = {
+  def showReview(course: List[CrReview2008Row], offerings: List[(String, List[String])], messages: List[String]) = {
     course match {
-      case course::rest => Ok(views.html.course(course, offerings))
+      case course::rest => Ok(views.html.course(course, offerings, messages))
       case Nil => NotFound(<h1>No such course</h1>)
     }
   }
 
   def twoTupleReview(dept: String, num: String, tab: String) = DBAction { implicit request =>
     val offerings = getOfferings(dept, num)
-    showReview(Search.getCourse(dept, num).list, offerings)
+    val messages = getMessages(dept, num).list.map(message => message.messageContents)
+    showReview(Search.getCourse(dept, num).list, offerings, messages)
   }
 
   def threeTupleReview(dept: String, num: String, offering: String, tab: String) = DBAction { implicit request =>
     parse_cis_semester(offering) match {
       case Some(edition) =>
         val offerings = getOfferings(dept, num)
-        showReview(Search.getCourseByEdition(dept, num, edition).list, offerings)
+        val messages = getMessages(dept, num, offering).list.map(message => message.messageContents)
+        showReview(Search.getCourseByEdition(dept, num, edition).list, offerings, messages)
       case None =>
         NotFound(<h1>Bad semester: {offering}</h1>)
     }
@@ -106,7 +90,8 @@ object Course extends Controller {
     parse_cis_semester(offering) match {
       case Some(edition) =>
         val offerings = getOfferings(dept, num)
-        showReview(Search.getSpecificCourse(dept, num, edition, section).list, offerings)
+        val messages = getMessages(dept, num, offering, section).list.map(message => message.messageContents)
+        showReview(Search.getSpecificCourse(dept, num, edition, section).list, offerings, messages)
       case None =>
         NotFound(<h1>Bad semester: {offering}</h1>)
     }
