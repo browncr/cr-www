@@ -112,15 +112,17 @@ object Course extends Controller {
     }
   }
   
+  // Code for displaying demographics graphs. Currently nonfunctional
+  /*
   def getXMLFilePath(name: String, edition: String) : Option[Path] = {
     if (Files.exists(Play.getFile("/app/assets/xml/" + edition + "/" + name).toPath())) {
       play.Logger.debug("Found in /app/assets/xml/" + edition + "/" + name)
       return Some(Play.getFile("/app/assets/xml/" + edition + "/" + name).toPath());
     } else if (Files.exists(Play.getFile("/app/assets/xml/all/" + name).toPath())) {
-      play.Logger.debug("Found in /app/assets/xml/" + edition + "/" + name)
+      play.Logger.debug("Found in /app/assets/xml/all/" + name)
       return Some(Play.getFile("/app/assets/xml/all/" + name).toPath());
     } else {
-      play.Logger.debug("Found in /app/assets/xml/" + edition + "/" + name)
+      play.Logger.debug("Not Found")
       return None
     }
   }
@@ -153,35 +155,39 @@ object Course extends Controller {
     val tFactory = TransformerFactory.newInstance();
     val transformer = tFactory.newTransformer(new StreamSource(xsltPath.get.toString()));
     
-    
+    /*
     val documentBuilderFactory = DocumentBuilderFactory.newInstance()
     val documentBuilder = documentBuilderFactory.newDocumentBuilder()
     val xpathFactory = XPathFactory.newInstance()
     val xpath = xpathFactory.newXPath()
     val expressionA = xpath.compile("/")
-    val expressionB = xpath.compile("/tally-colors")
+    val expressionB = xpath.compile("/tally-colors")*/
     
     graphLayoutPath match {
       case(Some(path)) => {
-        val document = documentBuilder.parse(path.toFile())
-        transformer.setParameter("graph-layout", expressionA.evaluate(document, XPathConstants.NODESET) /*"document(\'" + path + "\')/tally-colors"*/)
-        //transformer.setParameter("graph-layout", document.getChildNodes() /*"document(\'" + path + "\')"*/)
+        //val document = documentBuilder.parse(path.toFile())
+        //transformer.setParameter("graph-layout", expressionA.evaluate(document, XPathConstants.NODESET) /*"document(\'" + path + "\')/tally-colors"*/)
+        transformer.setParameter("graph-layout", /*document.getChildNodes()*/ "document(\'" + path + "\')")
       }
       case(None) =>
     }
     tallyColorsPath match {
       case(Some(path)) => {
-        val document = documentBuilder.parse(path.toFile())
-        transformer.setParameter("tally-colors", expressionB.evaluate(document, XPathConstants.NODESET) /*"document(\'" + path + "\')/tally-colors"*/)
+        //val document = documentBuilder.parse(path.toFile())
+        //transformer.setParameter("tally-colors", expressionB.evaluate(document, XPathConstants.NODESET) /*"document(\'" + path + "\')/tally-colors"*/)
+        transformer.setParameter("graph-layout", "document(\'" + path + "\')/tally-colors")
       }
       case(None) =>
     }
     val tallyLength = tally_xml.get.length().toInt
     val tallyStream = new ByteArrayInputStream(tally_xml.get.getBytes(1, tallyLength))
+    val outputFile = Paths.get("C:\\Critical Review\\tallyXML.xml")
+    Files.write(outputFile, tally_xml.get.getBytes(1, tallyLength))
+    //play.Logger.debug(new String(tally_xml.get.getBytes(1, tallyLength)))
     transformer.transform(new StreamSource(tallyStream), outputStreamResult);
     
     Ok(outputByteStream.toByteArray()).as("image/svg+xml")
   }
-
+  */
 }
 

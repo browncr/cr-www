@@ -2,6 +2,11 @@
 
 @import common.Codes._
 @import common.Review._
+@import common.Tally._
+
+@import play.api._
+@import play.api.mvc._
+@import play.twirl.api.Html
 
 @tabs(dept: String, num: String, title: String) = {
   <dl class="tabs radius vertical" style="padding-right: 1em; width: auto;" data-tab>
@@ -40,13 +45,10 @@
   </dl>
 }
 
-@defining((review(2), review(3), review(11)))  { case (dept, num, title)  =>
+@defining((review(2), review(3), review(11))) { case (dept, num, title)  =>
   @main(title + " - The Critical Review") {
     <h1><a href="/@dept">@dept</a> @num (<a href="#">@review(10)</a>)</h1>
     <h2>@title</h2>
-    
-    <img src="/graph/@review(0)"></img>
-    
     @tabs(dept, num, title)
     <div xmlns="http://www.w3.org/1999/xhtml" class="review_content">
       @markup_review_content(review(33))
