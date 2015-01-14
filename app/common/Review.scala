@@ -26,6 +26,15 @@ object Review {
     .toList
     .sorted
   }
+  
+  def getMessages(dept: String, num: String, edition: String = Global.current_edition, section: String = "1")
+  (implicit session: DBSession)= Compiled {
+    CrReviewMessages.filter(entry =>
+      entry.departmentCode === dept &&
+      entry.courseNum === num &&
+      entry.edition === edition &&
+      entry.section === section)
+  }
 
   def truncate_avg(avg: Float) = {
     f"$avg%.2f"

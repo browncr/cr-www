@@ -1,0 +1,12 @@
+<tally-colors>
+	<!--
+	<color value="1"><r>0</r><g>192</g><b>0</b></color>
+	<color value="2"><r>145</r><g>228</g><b>145</b></color>
+	<color value="3"><r>176</r><g>236</g><b>176</b></color>
+	<color value="4"><r>255</r><g>255</g><b>255</b></color>
+	-->
+	<color value="1"><r>0</r><g>192</g><b>0</b></color>
+	<color value="2"><r>176</r><g>235</g><b>176</b></color>
+	<color value="3"><r>194</r><g>240</g><b>194</b></color>
+	<color value="4"><r>255</r><g>255</g><b>255</b></color>
+</tally-colors>

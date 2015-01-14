@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/xslt/tally_base.xslt"?>
+<tally>
+	<options id="default">
+		<option name="1" value="1">
+			<input>1</input>
+		</option>
+		<option name="2" value="2">
+			<input>2</input>
+		</option>
+		<option name="3" value="3">
+			<input>3</input>
+		</option>
+		<option name="4" value="4">
+			<input>4</input>
+		</option>
+		<option name="N/A" value="5">
+			<input>5</input>
+			<input>N</input>
+		</option>
+	</options>
+	<options id="standard">
+		<option name="1" value="1">
+			<input>1</input>
+		</option>
+		<option name="2" value="2">
+			<input>2</input>
+		</option>
+		<option name="3" value="3">
+			<input>3</input>
+		</option>
+		<option name="4" value="4">
+			<input>4</input>
+		</option>
+		<option name="N/A" value="5">
+			<input>5</input>
+			<input>N</input>
+		</option>
+	</options>
+	<questions>
+		<group name="Structure">
+			<question id="tal1" options="default" course-weight="1">
+				<long>Goals and objectives were clearly stated</long>
+				<short>Goals clearly stated</short>
+			</question>
+			<question id="tal2" options="default" course-weight="1">
+				<long>Exams, papers, labs, and other assignments related to broader course goals</long>
+				<short>Assignments relevant</short>
+			</question>
+			<question id="tal3" options="default" course-weight="1">
+				<long>Grading policy was clear and fair</long>
+				<short>Fair grading</short>
+			</question>
+			<question id="tal4" options="default" course-weight="1">
+				<long>Syllabus was thorough and accurate</long>
+				<short>Good syllabus</short>
+			</question>
+		</group>
+		<group name="Instructor(s)">
+			<question id="tal5" options="default" prof-weight="1">
+				<long>Presented material effectively</long>
+				<short>Effective presentation</short>
+			</question>
+			<question id="tal6" options="default" prof-weight="1">
+				<long>Organized class time efficiently</long>
+				<short>Efficient organization</short>
+			</question>
+			<question id="tal7" options="default" prof-weight="1">
+				<long>Motivated me to succeed</long>
+				<short>Motivated me</short>
+			</question>
+			<question id="tal8" options="default" prof-weight="1">
+				<long>I could get helpful feedback regularly</long>
+				<short>Could get feedback</short>
+			</question>
+		</group>
+		<group name="Content">
+			<question id="tal9" options="default" course-weight="1">
+				<long>Assigned readings were worthwhile</long>
+				<short>Readings worthwhile</short>
+			</question>
+			<question id="tal10" options="default" course-weight="1">
+				<long>Assignments were beneficial</long>
+				<short>Assignments beneficial</short>
+			</question>
+			<question id="tal11" options="default" course-weight="1">
+				<long>Lectures and discussions were relevant</long>
+				<short>Lectures relevant</short>
+			</question>
+			<question id="tal12" options="default" course-weight="1">
+				<long>In-class materials and activities (notes, handouts, overheads, etc.) were useful</long>
+				<short>Materials useful</short>
+			</question>
+		</group>
+		<group name="Skills">
+			<question id="tal13" options="default" course-weight="1">
+				<long>The class was appropriately challenging</long>
+				<short>Appropriately challenging</short>
+			</question>
+			<question id="tal14" options="default" course-weight="1">
+				<long>The course goals were accomplished</long>
+				<short>Goals accomplished</short>
+			</question>
+			<question id="tal15" options="default" course-weight="1">
+				<long>I can apply new principles to other situations</long>
+				<short>Can apply new principles</short>
+			</question>
+			<question id="tal16" options="default" course-weight="1">
+				<long>I loved what I got out of this course</long>
+				<short>Loved what I got</short>
+			</question>
+		</group>
+		<group name="About Me">
+			<question id="conc">
+				<long>I am concentrator in this department</long>
+				<short>Concentrator</short>
+				<help>Enter C/N/D</help>
+				<option name="Yes" value="C">
+					<input>Y</input>
+					<input>C</input>
+				</option>
+				<option name="No" value="N">
+					<input>N</input>
+				</option>
+				<option name="Undecided" value="D">
+					<input>U</input>
+					<input>D</input>
+				</option>
+			</question>
+			<question id="grade">
+				<long>I expect my grade to be</long>
+				<short>Grade</short>
+				<help>Enter A/B/C/S/N</help>
+				<option name="A" value="A">
+					<input>A</input>
+					<input>1</input>
+				</option>
+				<option name="B" value="B">
+					<input>B</input>
+					<input>2</input>
+				</option>
+				<option name="C" value="C">
+					<input>C</input>
+					<input>3</input>
+				</option>
+				<option name="S" value="S">
+					<input>S</input>
+					<input>4</input>
+				</option>
+				<option name="NC" value="NC">
+					<input>N</input>
+					<input>5</input>
+				</option>
+			</question>
+			<question id="attendance">
+				<long>I attend this fraction of classes</long>
+				<short>Attendance</short>
+				<help>Enter 1-5</help>
+				<option name="1" value="1">
+					<input>1</input>
+				</option>
+				<option name=">3/4" value="2">
+					<input>2</input>
+				</option>
+				<option name=">1/2" value="3">
+					<input>3</input>
+				</option>
+				<option name=">1/4" value="4">
+					<input>4</input>
+				</option>
+				<option name="1/4-0" value="5">
+					<input>5</input>
+				</option>
+			</question>
+			<question id="hours">
+				<long>Hours per week I spend on this class</long>
+				<short>Hours</short>
+				<help>Enter 1-5</help>
+				<option name="Other" value="1">
+					<input>1</input>
+				</option>
+				<option name="12-9" value="2">
+					<input>2</input>
+				</option>
+				<option name="8-4" value="3">
+					<input>3</input>
+				</option>
+				<option name="3-1" value="4">
+					<input>4</input>
+				</option>
+				<option name="0" value="5">
+					<input>5</input>
+				</option>
+			</question>
+		</group>
+	</questions>
+</tally>

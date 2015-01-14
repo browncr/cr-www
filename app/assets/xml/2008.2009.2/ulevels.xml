@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<ulevels>
+	<level nbr="5">
+		<singular>Editor-in-Chief</singular>
+		<plural>Editors-in-Chief</plural>
+		<short>Chief</short>
+	</level>
+	<level nbr="4">
+		<singular>Executive Editor</singular>
+		<plural>Executive Editors</plural>
+		<short>Exec</short>
+	</level>
+	<level nbr="3">
+		<singular>Editor</singular>
+		<plural>Editors</plural>
+		<short>Editor</short>
+	</level>
+	<level nbr="6">
+		<singular>Webmaster</singular>
+		<plural>Webmasters</plural>
+		<short>Webbie</short>
+	</level>
+	<level nbr="2">
+		<singular>Writer</singular>
+		<plural>Writers</plural>
+		<short>Writer</short>
+	</level>
+</ulevels>

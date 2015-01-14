@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pie-graph question-id="conc" xmlns="http://www.thecriticalreview.org/xmlns/graph">
+	<ans id="C">
+		<color>#FF0000</color>
+		<title>Conc</title>
+	</ans>
+	<ans id="N">
+		<color>#0000FF</color>
+		<title>Non-conc</title>
+	</ans>
+	<ans id="D">
+		<color>#009900</color>
+		<title>Undecided</title>
+	</ans>
+</pie-graph>

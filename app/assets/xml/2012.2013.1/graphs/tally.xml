@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tally-graph xmlns="http://www.thecriticalreview.org/xmlns/graph">
+	<group name="Structure">
+		<q id="clear-goals">Goals were clearly stated</q>
+		<q id="grading-speed">Grading was timely</q>
+		<q id="grading-fairness">Grading policy was clear and fair</q>
+	</group>
+	<group name="Content">
+		<q id="readings">Assigned readings worthwhile</q>
+		<q id="assignments">Assignments were related</q>
+		<q id="class-materials">Materials/activities were useful</q>
+		<q id="difficult">Class was difficult</q>
+		<q id="learned">I learned a lot</q>
+		<q id="loved">I loved the course</q>
+		<q id="non-concs">Good for non-concentrators</q>
+	</group>
+	<group name="Instructor(s)">
+		<q id="effective">Presented material effectively</q>
+		<q id="efficient">Used class periods efficiently</q>
+		<q id="pacing">Paced the semester appropriately</q>
+		<q id="motivated">Motivated me to succeed</q>
+		<q id="feedback-available">Could get feedback when needed</q>
+		<q id="feedback-useful">Feedback was useful</q>
+	</group>
+</tally-graph>

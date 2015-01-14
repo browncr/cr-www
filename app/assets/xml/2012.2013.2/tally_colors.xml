@@ -1,0 +1,28 @@
+<tally-colors>
+	<!-- Classic
+	<color value="1"><r>0</r><g>0</g><b>255</b></color>
+	<color value="2"><r>0</r><g>170</g><b>255</b></color>
+	<color value="3"><r>0</r><g>255</g><b>255</b></color>
+	<color value="4"><r>0</r><g>255</g><b>0</b></color>
+	-->
+	<!-- Blue, Purple, Pink, Red
+	<color value="1"><r>0</r><g>0</g><b>255</b></color>
+	<color value="2"><r>169</r><g>0</g><b>255</b></color>
+	<color value="3"><r>255</r><g>0</g><b>255</b></color>
+	<color value="4"><r>255</r><g>0</g><b>0</b></color>
+	-->
+	<!-- Blue, Green, Yellow, Red
+	<color value="1"><r>0</r><g>0</g><b>255</b></color>
+	<color value="2"><r>0</r><g>255</g><b>0</b></color>
+	<color value="3"><r>255</r><g>255</g><b>0</b></color>
+	<color value="4"><r>255</r><g>0</g><b>0</b></color>
+	-->
+	<!-- Green, Yellow, Orange, Red -->
+	<color value="1"><r>0</r><g>192</g><b>0</b></color>
+	<color value="2"><r>128</r><g>255</g><b>0</b></color>
+	<color value="3"><r>255</r><g>128</g><b>0</b></color>
+	<color value="4"><r>255</r><g>0</g><b>0</b></color>
+
+	<!-- 5 (N/A) is white -->
+	<color value="5"><r>255</r><g>255</g><b>255</b></color>
+</tally-colors>

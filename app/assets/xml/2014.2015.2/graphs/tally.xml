@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tally-graph xmlns="http://www.thecriticalreview.org/xmlns/graph">
+    <group name="Course">
+        <q id="readings">Readings worthwhile</q>
+        <q id="class-materials">Materials useful</q>
+        <q id="difficult">Difficult</q>
+        <q id="learned">Learned a lot</q>
+        <q id="loved">Enjoyed course</q>
+        <q id="grading-speed">Timely grading</q>
+        <q id="grading-fairness">Fair grading</q>
+        <q id="non-concs">Good for non-concentrators</q>
+    </group>
+    <group name="Instructor(s)">
+        <q id="effective">Effective presentation</q>
+        <q id="efficient">Efficient class period</q>
+        <q id="encouraged">Encouraged discussion</q>
+        <q id="passionate">Passionate about material</q>
+        <q id="receptive">Receptive to needs</q>
+        <q id="availableFeedback">Feedback available/useful</q>
+    </group>
+</tally-graph>

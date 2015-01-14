@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pie-graph question-id="graded" xmlns="http://www.thecriticalreview.org/xmlns/graph">
+	<ans id="Y">
+		<color>#FF0000</color>
+		<title>Yes</title>
+	</ans>
+	<ans id="N">
+		<color>#0000FF</color>
+		<title>No</title>
+	</ans>
+</pie-graph>
