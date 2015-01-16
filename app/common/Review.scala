@@ -26,6 +26,15 @@ object Review {
     .toList
     .sorted
   }
+  
+  val getMessages = Compiled { (dept:Column[String], num:Column[String], edition:Column[String], section:Column[String]) =>
+    CrReviewMessages.filter(entry =>
+      entry.departmentCode === dept &&
+      entry.courseNum === num &&
+      entry.edition === edition &&
+      entry.section === section)
+    .map(_.messageContents)
+  }
 
   def truncate_avg(avg: Float) = {
     f"$avg%.2f"

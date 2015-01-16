@@ -1,7 +1,11 @@
-@(review: models.Tables.CrReview2008Row, offerings: List[(String, List[String])])
+@(review: models.Tables.CrReview2008Row, offerings: List[(String, List[String])], messages: List[String])
 
 @import common.Codes._
 @import common.Review._
+
+@import play.api._
+@import play.api.mvc._
+@import play.twirl.api.Html
 
 @tabs(dept: String, num: String, title: String) = {
   <dl class="tabs radius vertical" style="padding-right: 1em; width: auto;" data-tab>
@@ -40,13 +44,57 @@
   </dl>
 }
 
-@defining((review(2), review(3), review(11)))  { case (dept, num, title)  =>
+@defining((review(2), review(3), review(11))) { case (dept, num, title)  =>
   @main(title + " - The Critical Review") {
-    <h1><a href="/@dept">@dept</a> @num (<a href="#">@review(10)</a>)</h1>
+  	<div style="color: #DDF">
+  	  @messages.map{ message =>
+  	  	<p>@message</p>
+  	  }
+  	</div>
+	
+	<h1><a href="/@dept">@dept</a> @num (<a href="#">@review(10)</a>)</h1>
     <h2>@title</h2>
     @tabs(dept, num, title)
-    <div xmlns="http://www.w3.org/1999/xhtml" class="review_content">
-      @markup_review_content(review(33))
-    </div>
+    
+    @(review(6), review(47)) match {
+      case (-2, _) => {
+        <h4>Questionnaires Not Returned</h4>
+    	<p>
+	    Questionnaires for this course were not returned.
+	    Participation in the Critical Review is voluntary 
+	    and at the discretion of the instructor. If you are
+	    a student and benefit from the Critical Review, please
+	    tell your professors and ask them to participate!
+	    </p>
+	    <p>
+	    <b>Instructors:</b> Participating in the Critical Review
+	    is easy. Several weeks before the end of each semester,
+	    questionnaires for every course are delivered to
+	    department offices. The questionnaires come in self-addressed
+	    envelopes: no processing is required! All it takes is 10 minutes
+	    of class time to benefit scores of students.
+	    </p>
+	  }
+	  case (_, true) => {
+    	<h4>Insufficient Information Provided</h4>
+		<p>
+		This course returned fewer than five completed surveys
+		to the Critical Review. Reviews based upon the statements
+		of such a small number of respondents may present a skewed
+		perspective of the course. Therefore, a review has not been
+		written. Nevertheless, the Critical Review recognizes that
+		surveys were in fact returned.
+		</p>
+		<p>
+		You can still view the demographics for this course or
+		consult a review from another semester.
+		</p>
+	  }
+	  case (_, _) => {
+		<div xmlns="http://www.w3.org/1999/xhtml" class="review_content">
+	      @markup_review_content(review(33))
+	    </div>
+	  }
+    }
   }
 }
