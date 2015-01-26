@@ -15,8 +15,11 @@ object Tables {
   import scala.slick.jdbc.{GetResult => GR}
   
   /** DDL for all tables. Call .create to execute. */
-  lazy val ddl = CrComment2005.ddl ++ CrDepartment2005.ddl ++ CrEdition2005.ddl ++ CrProfessor2008.ddl ++ CrQuotes2005.ddl ++ CrReview2005.ddl ++ CrReview2008.ddl ++ CrReviewHasProfessor2008.ddl ++ CrReviewMessages.ddl ++ CrSurveyCodes.ddl ++ CrSurveySubmissions.ddl ++ CrUserBios2005.ddl ++ CrUserLevel2005.ddl ++ CrUsers2005.ddl ++ MochaCourses.ddl ++ StaffPhotos.ddl ++ StaffVotes.ddl ++ Tallies.ddl
-  
+  lazy val ddl = CrComment2005.ddl ++ CrDepartment2005.ddl ++ CrEdition2005.ddl ++ CrProfessor2008.ddl ++
+    CrQuotes2005.ddl ++ CrReview2005.ddl ++ CrReview2008.ddl ++ CrReviewHasProfessor2008.ddl ++ CrReviewMessages.ddl ++
+    CrSurveyCodes.ddl ++ CrSurveySubmissions.ddl ++ CrUserBios2005.ddl ++ CrUserLevel2005.ddl ++ CrUsers2005.ddl ++
+    MochaCourses.ddl ++ StaffPhotos.ddl ++ StaffVotes.ddl ++ Tallies.ddl
+
   /** Entity class storing rows of table CrComment2005
    *  @param id Database column ID DBType(INT), AutoInc, PrimaryKey
    *  @param reviewid Database column REVIEWID DBType(INT), Default(0)
@@ -34,7 +37,9 @@ object Tables {
   class CrComment2005(_tableTag: Tag) extends Table[CrComment2005Row](_tableTag, "cr_comment_2005") {
     def * = (id, reviewid, inactive, userid, time, comment) <> (CrComment2005Row.tupled, CrComment2005Row.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (id.?, reviewid.?, inactive.?, userid.?, time.?, comment.?).shaped.<>({r=>import r._; _1.map(_=> CrComment2005Row.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (id.?, reviewid.?, inactive.?, userid.?, time.?, comment.?).shaped.<>({r=>import r._; _1.map(_=>
+      CrComment2005Row.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get)))}, (_:Any) =>
+      throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column ID DBType(INT), AutoInc, PrimaryKey */
     val id: Column[Int] = column[Int]("ID", O.AutoInc, O.PrimaryKey)
@@ -58,7 +63,8 @@ object Tables {
    *  @param bannerCode Database column banner_code DBType(VARCHAR), PrimaryKey, Length(4,true)
    *  @param name Database column name DBType(VARCHAR), Length(255,true), Default()
    *  @param registrarName Database column registrar_name DBType(VARCHAR), Length(255,true) */
-  case class CrDepartment2005Row(shortCode: Option[String] = None, longCode: String = "", bannerCode: String, name: String = "", registrarName: String)
+  case class CrDepartment2005Row(shortCode: Option[String] = None, longCode: String = "", bannerCode: String,
+                                 name: String = "", registrarName: String)
   /** GetResult implicit for fetching CrDepartment2005Row objects using plain SQL queries */
   implicit def GetResultCrDepartment2005Row(implicit e0: GR[Option[String]], e1: GR[String]): GR[CrDepartment2005Row] = GR{
     prs => import prs._
@@ -68,7 +74,9 @@ object Tables {
   class CrDepartment2005(_tableTag: Tag) extends Table[CrDepartment2005Row](_tableTag, "cr_department_2005") {
     def * = (shortCode, longCode, bannerCode, name, registrarName) <> (CrDepartment2005Row.tupled, CrDepartment2005Row.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (shortCode, longCode.?, bannerCode.?, name.?, registrarName.?).shaped.<>({r=>import r._; _2.map(_=> CrDepartment2005Row.tupled((_1, _2.get, _3.get, _4.get, _5.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (shortCode, longCode.?, bannerCode.?, name.?, registrarName.?).shaped.<>({r=>import r._; _2.map(_=>
+      CrDepartment2005Row.tupled((_1, _2.get, _3.get, _4.get, _5.get)))}, (_:Any) =>
+      throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column short_code DBType(VARCHAR), Length(2,true), Default(None) */
     val shortCode: Column[Option[String]] = column[Option[String]]("short_code", O.Length(2,varying=true), O.Default(None))
@@ -102,7 +110,9 @@ object Tables {
   class CrEdition2005(_tableTag: Tag) extends Table[CrEdition2005Row](_tableTag, "cr_edition_2005") {
     def * = (id, hidden, edition, mochaId) <> (CrEdition2005Row.tupled, CrEdition2005Row.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (id.?, hidden.?, edition.?, mochaId.?).shaped.<>({r=>import r._; _1.map(_=> CrEdition2005Row.tupled((_1.get, _2.get, _3.get, _4.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (id.?, hidden.?, edition.?, mochaId.?).shaped.<>({r=>import r._; _1.map(_=>
+      CrEdition2005Row.tupled((_1.get, _2.get, _3.get, _4.get)))}, (_:Any) =>
+      throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column ID DBType(INT), AutoInc */
     val id: Column[Int] = column[Int]("ID", O.AutoInc)
@@ -128,9 +138,11 @@ object Tables {
    *  @param middle Database column middle DBType(VARCHAR), Length(50,true), Default(None)
    *  @param last Database column last DBType(VARCHAR), Length(50,true), Default(None)
    *  @param professorAvg Database column professor_avg DBType(FLOAT) */
-  case class CrProfessor2008Row(id: Int, name: String, first: Option[String] = None, middle: Option[String] = None, last: Option[String] = None, professorAvg: Float)
+  case class CrProfessor2008Row(id: Int, name: String, first: Option[String] = None, middle: Option[String] = None,
+                                last: Option[String] = None, professorAvg: Float)
   /** GetResult implicit for fetching CrProfessor2008Row objects using plain SQL queries */
-  implicit def GetResultCrProfessor2008Row(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[String]], e3: GR[Float]): GR[CrProfessor2008Row] = GR{
+  implicit def GetResultCrProfessor2008Row(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[String]],
+                                           e3: GR[Float]): GR[CrProfessor2008Row] = GR{
     prs => import prs._
     CrProfessor2008Row.tupled((<<[Int], <<[String], <<?[String], <<?[String], <<?[String], <<[Float]))
   }
@@ -138,7 +150,9 @@ object Tables {
   class CrProfessor2008(_tableTag: Tag) extends Table[CrProfessor2008Row](_tableTag, "cr_professor_2008") {
     def * = (id, name, first, middle, last, professorAvg) <> (CrProfessor2008Row.tupled, CrProfessor2008Row.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (id.?, name.?, first, middle, last, professorAvg.?).shaped.<>({r=>import r._; _1.map(_=> CrProfessor2008Row.tupled((_1.get, _2.get, _3, _4, _5, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (id.?, name.?, first, middle, last, professorAvg.?).shaped.<>({r=>import r._; _1.map(_=>
+      CrProfessor2008Row.tupled((_1.get, _2.get, _3, _4, _5, _6.get)))}, (_:Any) =>
+      throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column id DBType(INT), AutoInc, PrimaryKey */
     val id: Column[Int] = column[Int]("id", O.AutoInc, O.PrimaryKey)
@@ -164,7 +178,8 @@ object Tables {
    *  @param time Database column TIME DBType(INT)
    *  @param quote Database column QUOTE DBType(TEXT), Length(65535,true)
    *  @param published Database column PUBLISHED DBType(BIT), Default(false) */
-  case class CrQuotes2005Row(quoteId: Int, edition: String, userId: Int, questId: Int, time: Int, quote: String, published: Boolean = false)
+  case class CrQuotes2005Row(quoteId: Int, edition: String, userId: Int, questId: Int, time: Int,
+                             quote: String, published: Boolean = false)
   /** GetResult implicit for fetching CrQuotes2005Row objects using plain SQL queries */
   implicit def GetResultCrQuotes2005Row(implicit e0: GR[Int], e1: GR[String], e2: GR[Boolean]): GR[CrQuotes2005Row] = GR{
     prs => import prs._
@@ -174,7 +189,9 @@ object Tables {
   class CrQuotes2005(_tableTag: Tag) extends Table[CrQuotes2005Row](_tableTag, "cr_quotes_2005") {
     def * = (quoteId, edition, userId, questId, time, quote, published) <> (CrQuotes2005Row.tupled, CrQuotes2005Row.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (quoteId.?, edition.?, userId.?, questId.?, time.?, quote.?, published.?).shaped.<>({r=>import r._; _1.map(_=> CrQuotes2005Row.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (quoteId.?, edition.?, userId.?, questId.?, time.?, quote.?, published.?).shaped.<>({r=>
+      import r._; _1.map(_=> CrQuotes2005Row.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get)))},
+    (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column QUOTE_ID DBType(INT), AutoInc, PrimaryKey */
     val quoteId: Column[Int] = column[Int]("QUOTE_ID", O.AutoInc, O.PrimaryKey)
@@ -195,19 +212,39 @@ object Tables {
   lazy val CrQuotes2005 = new TableQuery(tag => new CrQuotes2005(tag))
   
   /** Row type of table CrReview2005 */
-  type CrReview2005Row = HCons[Int,HCons[String,HCons[Int,HCons[Int,HCons[Int,HCons[String,HCons[String,HCons[String,HCons[Short,HCons[String,HCons[String,HCons[String,HCons[String,HCons[Short,HCons[String,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[String,HCons[String,HCons[String,HCons[String,HCons[java.sql.Blob,HCons[String,HCons[String,HNil]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+  type CrReview2005Row = HCons[Int,HCons[String,HCons[Int,HCons[Int,HCons[Int,HCons[String,HCons[String,HCons[String,
+    HCons[Short,HCons[String,HCons[String,HCons[String,HCons[String,HCons[Short,HCons[String,HCons[Short,HCons[Short,
+      HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[String,HCons[String,
+        HCons[String,HCons[String,HCons[java.sql.Blob,HCons[String,HCons[String,HNil]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
   /** Constructor for CrReview2005Row providing default values if available in the database schema. */
-  def CrReview2005Row(id: Int, inactive: String = "", version: Int = 0, time: Int = 0, writerId: Int = 0, edition: String = "", courseCode: String = "0", departmentCode: String = "", courseNum: Short = 0, section: String = "", professor: String = "", title: String = "", department: String = "", numRespondents: Short = 0, courseformat: String = "", frosh: Short = 0, soph: Short = 0, jun: Short = 0, sen: Short = 0, grad: Short = 0, total: Short = 0, concs: Short = 0, nonconcs: Short = 0, dunno: Short = 0, profavg: String = "", courseavg: String = "", reviewContents: String, tally: String, tallyGraphic: java.sql.Blob, tallyFiletype: String = "", editors: String): CrReview2005Row = {
-    id :: inactive :: version :: time :: writerId :: edition :: courseCode :: departmentCode :: courseNum :: section :: professor :: title :: department :: numRespondents :: courseformat :: frosh :: soph :: jun :: sen :: grad :: total :: concs :: nonconcs :: dunno :: profavg :: courseavg :: reviewContents :: tally :: tallyGraphic :: tallyFiletype :: editors :: HNil
+  def CrReview2005Row(id: Int, inactive: String = "", version: Int = 0, time: Int = 0, writerId: Int = 0,
+                      edition: String = "", courseCode: String = "0", departmentCode: String = "", courseNum: Short = 0,
+                      section: String = "", professor: String = "", title: String = "", department: String = "",
+                      numRespondents: Short = 0, courseformat: String = "", frosh: Short = 0, soph: Short = 0,
+                      jun: Short = 0, sen: Short = 0, grad: Short = 0, total: Short = 0, concs: Short = 0,
+                      nonconcs: Short = 0, dunno: Short = 0, profavg: String = "", courseavg: String = "",
+                      reviewContents: String, tally: String, tallyGraphic: java.sql.Blob, tallyFiletype: String = "",
+                      editors: String): CrReview2005Row = {
+    id :: inactive :: version :: time :: writerId :: edition :: courseCode :: departmentCode :: courseNum ::
+      section :: professor :: title :: department :: numRespondents :: courseformat :: frosh :: soph :: jun :: sen ::
+      grad :: total :: concs :: nonconcs :: dunno :: profavg :: courseavg :: reviewContents :: tally :: tallyGraphic ::
+      tallyFiletype :: editors :: HNil
   }
   /** GetResult implicit for fetching CrReview2005Row objects using plain SQL queries */
-  implicit def GetResultCrReview2005Row(implicit e0: GR[Int], e1: GR[String], e2: GR[Short], e3: GR[java.sql.Blob]): GR[CrReview2005Row] = GR{
+  implicit def GetResultCrReview2005Row(implicit e0: GR[Int], e1: GR[String], e2: GR[Short],
+                                        e3: GR[java.sql.Blob]): GR[CrReview2005Row] = GR{
     prs => import prs._
-    <<[Int] :: <<[String] :: <<[Int] :: <<[Int] :: <<[Int] :: <<[String] :: <<[String] :: <<[String] :: <<[Short] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[Short] :: <<[String] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[java.sql.Blob] :: <<[String] :: <<[String] :: HNil
+    <<[Int] :: <<[String] :: <<[Int] :: <<[Int] :: <<[Int] :: <<[String] :: <<[String] :: <<[String] :: <<[Short] ::
+      <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[Short] :: <<[String] :: <<[Short] :: <<[Short] ::
+      <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[String] ::
+      <<[String] :: <<[String] :: <<[String] :: <<[java.sql.Blob] :: <<[String] :: <<[String] :: HNil
   }
   /** Table description of table cr_review_2005. Objects of this class serve as prototypes for rows in queries. */
   class CrReview2005(_tableTag: Tag) extends Table[CrReview2005Row](_tableTag, "cr_review_2005") {
-    def * = id :: inactive :: version :: time :: writerId :: edition :: courseCode :: departmentCode :: courseNum :: section :: professor :: title :: department :: numRespondents :: courseformat :: frosh :: soph :: jun :: sen :: grad :: total :: concs :: nonconcs :: dunno :: profavg :: courseavg :: reviewContents :: tally :: tallyGraphic :: tallyFiletype :: editors :: HNil
+    def * = id :: inactive :: version :: time :: writerId :: edition :: courseCode :: departmentCode :: courseNum ::
+      section :: professor :: title :: department :: numRespondents :: courseformat :: frosh :: soph :: jun :: sen ::
+      grad :: total :: concs :: nonconcs :: dunno :: profavg :: courseavg :: reviewContents :: tally :: tallyGraphic ::
+      tallyFiletype :: editors :: HNil
     
     /** Database column ID DBType(INT), AutoInc */
     val id: Column[Int] = column[Int]("ID", O.AutoInc)
@@ -285,19 +322,64 @@ object Tables {
   lazy val CrReview2005 = new TableQuery(tag => new CrReview2005(tag))
   
   /** Row type of table CrReview2008 */
-  type CrReview2008Row = HCons[Int,HCons[String,HCons[String,HCons[String,HCons[String,HCons[Int,HCons[Int,HCons[Int,HCons[Int,HCons[Int,HCons[String,HCons[String,HCons[String,HCons[Int,HCons[Short,HCons[Byte,HCons[String,HCons[Option[Boolean],HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Float,HCons[Float,HCons[Option[Float],HCons[Option[Float],HCons[Option[Float],HCons[Option[Float],HCons[String,HCons[String,HCons[String,HCons[String,HCons[String,HCons[java.sql.Blob,HCons[String,HCons[java.sql.Timestamp,HCons[Int,HCons[Int,HCons[Int,HCons[Option[Int],HCons[Boolean,HCons[Int,HCons[Boolean,HCons[Boolean,HCons[Boolean,HCons[Option[java.sql.Date],HCons[String,HCons[String,HCons[Int,HCons[String,HCons[Int,HCons[Int,HCons[String,HCons[Boolean,HNil]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+  type CrReview2008Row = HCons[Int,HCons[String,HCons[String,HCons[String,HCons[String,HCons[Int,HCons[Int,HCons[Int,
+    HCons[Int,HCons[Int,HCons[String,HCons[String,HCons[String,HCons[Int,HCons[Short,HCons[Byte,HCons[String,
+      HCons[Option[Boolean],HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,HCons[Short,
+        HCons[Short,HCons[Short,HCons[Float,HCons[Float,HCons[Option[Float],HCons[Option[Float],HCons[Option[Float],
+          HCons[Option[Float],HCons[String,HCons[String,HCons[String,HCons[String,HCons[String,HCons[java.sql.Blob,
+            HCons[String,HCons[java.sql.Timestamp,HCons[Int,HCons[Int,HCons[Int,HCons[Option[Int],HCons[Boolean,
+              HCons[Int,HCons[Boolean,HCons[Boolean,HCons[Boolean,HCons[Option[java.sql.Date],HCons[String,
+                HCons[String,HCons[Int,HCons[String,HCons[Int,HCons[Int,HCons[String,HCons[Boolean,
+                  HNil]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
   /** Constructor for CrReview2008Row providing default values if available in the database schema. */
-  def CrReview2008Row(id: Int, edition: String, departmentCode: String, courseNum: String, section: String, revision: Int = 0, writerId: Int = -1, editorId: Int = -1, execId1: Int = -1, execId2: Int = -1, professor: String, title: String, academicDepartment: String, crn: Int, numRespondents: Short, courseFormat: Byte, courseformat: String, observedReading: Option[Boolean] = None, frosh: Short, soph: Short, jun: Short, sen: Short, grad: Short, total: Short, concs: Short, nonconcs: Short, dunno: Short, profavg: Float, courseavg: Float, minhoursMean: Option[Float] = None, minhoursMedian: Option[Float] = None, maxhoursMean: Option[Float] = None, maxhoursMedian: Option[Float] = None, reviewContents: String, editors: String, editorComments: String, otherCourses: String, tally: String, tallyGraphic: java.sql.Blob, tallyFiletype: String, time: java.sql.Timestamp, modifier: Int = -1, editDistance: Int = 0, oldid: Int, barcodeId: Option[Int] = None, active: Boolean = false, views: Int = 0, insufficient: Boolean = false, flagged: Boolean = false, isOnStaffBallot: Boolean = false, featuredDate: Option[java.sql.Date] = None, syllabus: String, website: String, printEditing: Int, archiveBox: String, profNameStatus: Int = 2, profFixupId: Int = 0, surveyPrinter: String, surveySpooled: Boolean = false): CrReview2008Row = {
-    id :: edition :: departmentCode :: courseNum :: section :: revision :: writerId :: editorId :: execId1 :: execId2 :: professor :: title :: academicDepartment :: crn :: numRespondents :: courseFormat :: courseformat :: observedReading :: frosh :: soph :: jun :: sen :: grad :: total :: concs :: nonconcs :: dunno :: profavg :: courseavg :: minhoursMean :: minhoursMedian :: maxhoursMean :: maxhoursMedian :: reviewContents :: editors :: editorComments :: otherCourses :: tally :: tallyGraphic :: tallyFiletype :: time :: modifier :: editDistance :: oldid :: barcodeId :: active :: views :: insufficient :: flagged :: isOnStaffBallot :: featuredDate :: syllabus :: website :: printEditing :: archiveBox :: profNameStatus :: profFixupId :: surveyPrinter :: surveySpooled :: HNil
+  def CrReview2008Row(id: Int, edition: String, departmentCode: String, courseNum: String, section: String,
+                      revision: Int = 0, writerId: Int = -1, editorId: Int = -1, execId1: Int = -1, execId2: Int = -1,
+                      professor: String, title: String, academicDepartment: String, crn: Int, numRespondents: Short,
+                      courseFormat: Byte, courseformat: String, observedReading: Option[Boolean] = None, frosh: Short,
+                      soph: Short, jun: Short, sen: Short, grad: Short, total: Short, concs: Short, nonconcs: Short,
+                      dunno: Short, profavg: Float, courseavg: Float, minhoursMean: Option[Float] = None,
+                      minhoursMedian: Option[Float] = None, maxhoursMean: Option[Float] = None,
+                      maxhoursMedian: Option[Float] = None, reviewContents: String, editors: String,
+                      editorComments: String, otherCourses: String, tally: String, tallyGraphic: java.sql.Blob,
+                      tallyFiletype: String, time: java.sql.Timestamp, modifier: Int = -1, editDistance: Int = 0,
+                      oldid: Int, barcodeId: Option[Int] = None, active: Boolean = false, views: Int = 0,
+                      insufficient: Boolean = false, flagged: Boolean = false, isOnStaffBallot: Boolean = false,
+                      featuredDate: Option[java.sql.Date] = None, syllabus: String, website: String, printEditing: Int,
+                      archiveBox: String, profNameStatus: Int = 2, profFixupId: Int = 0, surveyPrinter: String,
+                      surveySpooled: Boolean = false): CrReview2008Row = {
+    id :: edition :: departmentCode :: courseNum :: section :: revision :: writerId :: editorId :: execId1 ::
+      execId2 :: professor :: title :: academicDepartment :: crn :: numRespondents :: courseFormat :: courseformat ::
+      observedReading :: frosh :: soph :: jun :: sen :: grad :: total :: concs :: nonconcs :: dunno :: profavg ::
+      courseavg :: minhoursMean :: minhoursMedian :: maxhoursMean :: maxhoursMedian :: reviewContents :: editors ::
+      editorComments :: otherCourses :: tally :: tallyGraphic :: tallyFiletype :: time :: modifier :: editDistance ::
+      oldid :: barcodeId :: active :: views :: insufficient :: flagged :: isOnStaffBallot :: featuredDate ::
+      syllabus :: website :: printEditing :: archiveBox :: profNameStatus :: profFixupId :: surveyPrinter ::
+      surveySpooled :: HNil
   }
   /** GetResult implicit for fetching CrReview2008Row objects using plain SQL queries */
-  implicit def GetResultCrReview2008Row(implicit e0: GR[Int], e1: GR[String], e2: GR[Short], e3: GR[Byte], e4: GR[Option[Boolean]], e5: GR[Float], e6: GR[Option[Float]], e7: GR[java.sql.Blob], e8: GR[java.sql.Timestamp], e9: GR[Option[Int]], e10: GR[Boolean], e11: GR[Option[java.sql.Date]]): GR[CrReview2008Row] = GR{
+  implicit def GetResultCrReview2008Row(implicit e0: GR[Int], e1: GR[String], e2: GR[Short], e3: GR[Byte],
+                                        e4: GR[Option[Boolean]], e5: GR[Float], e6: GR[Option[Float]],
+                                        e7: GR[java.sql.Blob], e8: GR[java.sql.Timestamp], e9: GR[Option[Int]],
+                                        e10: GR[Boolean], e11: GR[Option[java.sql.Date]]): GR[CrReview2008Row] = GR{
     prs => import prs._
-    <<[Int] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[Int] :: <<[Int] :: <<[Int] :: <<[Int] :: <<[Int] :: <<[String] :: <<[String] :: <<[String] :: <<[Int] :: <<[Short] :: <<[Byte] :: <<[String] :: <<?[Boolean] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Float] :: <<[Float] :: <<?[Float] :: <<?[Float] :: <<?[Float] :: <<?[Float] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[java.sql.Blob] :: <<[String] :: <<[java.sql.Timestamp] :: <<[Int] :: <<[Int] :: <<[Int] :: <<?[Int] :: <<[Boolean] :: <<[Int] :: <<[Boolean] :: <<[Boolean] :: <<[Boolean] :: <<?[java.sql.Date] :: <<[String] :: <<[String] :: <<[Int] :: <<[String] :: <<[Int] :: <<[Int] :: <<[String] :: <<[Boolean] :: HNil
+    <<[Int] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[Int] :: <<[Int] :: <<[Int] :: <<[Int] ::
+      <<[Int] :: <<[String] :: <<[String] :: <<[String] :: <<[Int] :: <<[Short] :: <<[Byte] :: <<[String] ::
+      <<?[Boolean] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] :: <<[Short] ::
+      <<[Short] :: <<[Short] :: <<[Float] :: <<[Float] :: <<?[Float] :: <<?[Float] :: <<?[Float] :: <<?[Float] ::
+      <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[java.sql.Blob] :: <<[String] ::
+      <<[java.sql.Timestamp] :: <<[Int] :: <<[Int] :: <<[Int] :: <<?[Int] :: <<[Boolean] :: <<[Int] :: <<[Boolean] ::
+      <<[Boolean] :: <<[Boolean] :: <<?[java.sql.Date] :: <<[String] :: <<[String] :: <<[Int] :: <<[String] ::
+      <<[Int] :: <<[Int] :: <<[String] :: <<[Boolean] :: HNil
   }
   /** Table description of table cr_review_2008. Objects of this class serve as prototypes for rows in queries. */
   class CrReview2008(_tableTag: Tag) extends Table[CrReview2008Row](_tableTag, "cr_review_2008") {
-    def * = id :: edition :: departmentCode :: courseNum :: section :: revision :: writerId :: editorId :: execId1 :: execId2 :: professor :: title :: academicDepartment :: crn :: numRespondents :: courseFormat :: courseformat :: observedReading :: frosh :: soph :: jun :: sen :: grad :: total :: concs :: nonconcs :: dunno :: profavg :: courseavg :: minhoursMean :: minhoursMedian :: maxhoursMean :: maxhoursMedian :: reviewContents :: editors :: editorComments :: otherCourses :: tally :: tallyGraphic :: tallyFiletype :: time :: modifier :: editDistance :: oldid :: barcodeId :: active :: views :: insufficient :: flagged :: isOnStaffBallot :: featuredDate :: syllabus :: website :: printEditing :: archiveBox :: profNameStatus :: profFixupId :: surveyPrinter :: surveySpooled :: HNil
+    def * = id :: edition :: departmentCode :: courseNum :: section :: revision :: writerId :: editorId :: execId1 ::
+      execId2 :: professor :: title :: academicDepartment :: crn :: numRespondents :: courseFormat :: courseformat ::
+      observedReading :: frosh :: soph :: jun :: sen :: grad :: total :: concs :: nonconcs :: dunno :: profavg ::
+      courseavg :: minhoursMean :: minhoursMedian :: maxhoursMean :: maxhoursMedian :: reviewContents :: editors ::
+      editorComments :: otherCourses :: tally :: tallyGraphic :: tallyFiletype :: time :: modifier :: editDistance ::
+      oldid :: barcodeId :: active :: views :: insufficient :: flagged :: isOnStaffBallot :: featuredDate :: syllabus ::
+      website :: printEditing :: archiveBox :: profNameStatus :: profFixupId :: surveyPrinter :: surveySpooled :: HNil
     
     /** Database column id DBType(INT), AutoInc, PrimaryKey */
     val id: Column[Int] = column[Int]("id", O.AutoInc, O.PrimaryKey)
@@ -449,7 +531,9 @@ object Tables {
   class CrReviewHasProfessor2008(_tableTag: Tag) extends Table[CrReviewHasProfessor2008Row](_tableTag, "cr_review_has_professor_2008") {
     def * = (reviewId, professorId) <> (CrReviewHasProfessor2008Row.tupled, CrReviewHasProfessor2008Row.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (reviewId.?, professorId.?).shaped.<>({r=>import r._; _1.map(_=> CrReviewHasProfessor2008Row.tupled((_1.get, _2.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (reviewId.?, professorId.?).shaped.<>({r=>import r._; _1.map(_=>
+      CrReviewHasProfessor2008Row.tupled((_1.get, _2.get)))}, (_:Any) =>
+      throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column review_id DBType(INT) */
     val reviewId: Column[Int] = column[Int]("review_id")
@@ -475,7 +559,8 @@ object Tables {
    *  @param section Database column section DBType(CHAR), Length(8,false)
    *  @param messageContents Database column message_contents DBType(MEDIUMTEXT), Length(16777215,true)
    *  @param priority Database column priority DBType(INT), Default(0) */
-  case class CrReviewMessagesRow(id: Int, edition: String, departmentCode: String, courseNum: String, section: String, messageContents: String, priority: Int = 0)
+  case class CrReviewMessagesRow(id: Int, edition: String, departmentCode: String, courseNum: String, section: String,
+                                 messageContents: String, priority: Int = 0)
   /** GetResult implicit for fetching CrReviewMessagesRow objects using plain SQL queries */
   implicit def GetResultCrReviewMessagesRow(implicit e0: GR[Int], e1: GR[String]): GR[CrReviewMessagesRow] = GR{
     prs => import prs._
@@ -483,9 +568,12 @@ object Tables {
   }
   /** Table description of table cr_review_messages. Objects of this class serve as prototypes for rows in queries. */
   class CrReviewMessages(_tableTag: Tag) extends Table[CrReviewMessagesRow](_tableTag, "cr_review_messages") {
-    def * = (id, edition, departmentCode, courseNum, section, messageContents, priority) <> (CrReviewMessagesRow.tupled, CrReviewMessagesRow.unapply)
+    def * = (id, edition, departmentCode, courseNum, section, messageContents, priority) <> (CrReviewMessagesRow.tupled,
+      CrReviewMessagesRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (id.?, edition.?, departmentCode.?, courseNum.?, section.?, messageContents.?, priority.?).shaped.<>({r=>import r._; _1.map(_=> CrReviewMessagesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (id.?, edition.?, departmentCode.?, courseNum.?, section.?, messageContents.?,
+      priority.?).shaped.<>({r=>import r._; _1.map(_=> CrReviewMessagesRow.tupled((_1.get, _2.get, _3.get, _4.get,
+      _5.get, _6.get, _7.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column id DBType(INT), AutoInc, PrimaryKey */
     val id: Column[Int] = column[Int]("id", O.AutoInc, O.PrimaryKey)
@@ -512,7 +600,8 @@ object Tables {
    *  @param edition Database column edition DBType(VARCHAR), Length(12,true)
    *  @param code Database column code DBType(VARCHAR), Length(255,true)
    *  @param status Database column status DBType(INT), Default(None) */
-  case class CrSurveyCodesRow(department: String, number: String, section: String, edition: String, code: String, status: Option[Int] = None)
+  case class CrSurveyCodesRow(department: String, number: String, section: String, edition: String, code: String,
+                              status: Option[Int] = None)
   /** GetResult implicit for fetching CrSurveyCodesRow objects using plain SQL queries */
   implicit def GetResultCrSurveyCodesRow(implicit e0: GR[String], e1: GR[Option[Int]]): GR[CrSurveyCodesRow] = GR{
     prs => import prs._
@@ -522,7 +611,9 @@ object Tables {
   class CrSurveyCodes(_tableTag: Tag) extends Table[CrSurveyCodesRow](_tableTag, "cr_survey_codes") {
     def * = (department, number, section, edition, code, status) <> (CrSurveyCodesRow.tupled, CrSurveyCodesRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (department.?, number.?, section.?, edition.?, code.?, status).shaped.<>({r=>import r._; _1.map(_=> CrSurveyCodesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (department.?, number.?, section.?, edition.?, code.?, status).shaped.<>({r=>import r._; _1.map(_=>
+      CrSurveyCodesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6)))}, (_:Any) =>
+      throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column department DBType(VARCHAR), Length(12,true) */
     val department: Column[String] = column[String]("department", O.Length(12,varying=true))
@@ -544,19 +635,53 @@ object Tables {
   lazy val CrSurveyCodes = new TableQuery(tag => new CrSurveyCodes(tag))
   
   /** Row type of table CrSurveySubmissions */
-  type CrSurveySubmissionsRow = HCons[Int,HCons[String,HCons[String,HCons[String,HCons[String,HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[Float],HCons[Option[Float],HCons[String,HCons[String,HCons[String,HCons[String,HCons[String,HCons[String,HCons[String,HCons[String,HCons[java.sql.Timestamp,HCons[Option[String],HCons[Option[String],HNil]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+  type CrSurveySubmissionsRow = HCons[Int,HCons[String,HCons[String,HCons[String,HCons[String,HCons[Option[String],
+    HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],
+      HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],
+        HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],HCons[Option[String],
+          HCons[Option[String],HCons[Option[Float],HCons[Option[Float],HCons[String,HCons[String,HCons[String,
+            HCons[String,HCons[String,HCons[String,HCons[String,HCons[String,HCons[java.sql.Timestamp,
+              HCons[Option[String],HCons[Option[String],HNil]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
   /** Constructor for CrSurveySubmissionsRow providing default values if available in the database schema. */
-  def CrSurveySubmissionsRow(id: Int, department: String, number: String, section: String, edition: String, worthwhile: Option[String] = None, difficult: Option[String] = None, learned: Option[String] = None, enjoyed: Option[String] = None, nonconc: Option[String] = None, presented: Option[String] = None, time: Option[String] = None, encouraged: Option[String] = None, passionate: Option[String] = None, receptive: Option[String] = None, availablefeedback: Option[String] = None, timely: Option[String] = None, policy: Option[String] = None, conc: Option[String] = None, requirement: Option[String] = None, expected: Option[String] = None, attended: Option[String] = None, avghours: Option[Float] = None, maxhours: Option[Float] = None, background: String, assignments: String, difficulty: String, effective: String, feedback: String, recommendations: String, improvements: String, memorable: String, ts: java.sql.Timestamp, instructors: Option[String] = None, materials: Option[String] = None): CrSurveySubmissionsRow = {
-    id :: department :: number :: section :: edition :: worthwhile :: difficult :: learned :: enjoyed :: nonconc :: presented :: time :: encouraged :: passionate :: receptive :: availablefeedback :: timely :: policy :: conc :: requirement :: expected :: attended :: avghours :: maxhours :: background :: assignments :: difficulty :: effective :: feedback :: recommendations :: improvements :: memorable :: ts :: instructors :: materials :: HNil
+  def CrSurveySubmissionsRow(id: Int, department: String, number: String, section: String, edition: String,
+                             worthwhile: Option[String] = None, difficult: Option[String] = None,
+                             learned: Option[String] = None, enjoyed: Option[String] = None,
+                             nonconc: Option[String] = None, presented: Option[String] = None,
+                             time: Option[String] = None, encouraged: Option[String] = None,
+                             passionate: Option[String] = None, receptive: Option[String] = None,
+                             availablefeedback: Option[String] = None, timely: Option[String] = None,
+                             policy: Option[String] = None, conc: Option[String] = None,
+                             requirement: Option[String] = None, expected: Option[String] = None,
+                             attended: Option[String] = None, avghours: Option[Float] = None,
+                             maxhours: Option[Float] = None, background: String, assignments: String,
+                             difficulty: String, effective: String, feedback: String, recommendations: String,
+                             improvements: String, memorable: String, ts: java.sql.Timestamp,
+                             instructors: Option[String] = None,
+                             materials: Option[String] = None): CrSurveySubmissionsRow = {
+    id :: department :: number :: section :: edition :: worthwhile :: difficult :: learned :: enjoyed :: nonconc ::
+      presented :: time :: encouraged :: passionate :: receptive :: availablefeedback :: timely :: policy :: conc ::
+      requirement :: expected :: attended :: avghours :: maxhours :: background :: assignments :: difficulty ::
+      effective :: feedback :: recommendations :: improvements :: memorable :: ts :: instructors :: materials :: HNil
   }
   /** GetResult implicit for fetching CrSurveySubmissionsRow objects using plain SQL queries */
-  implicit def GetResultCrSurveySubmissionsRow(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[String]], e3: GR[Option[Float]], e4: GR[java.sql.Timestamp]): GR[CrSurveySubmissionsRow] = GR{
+  implicit def GetResultCrSurveySubmissionsRow(implicit e0: GR[Int],
+                                               e1: GR[String],
+                                               e2: GR[Option[String]], e3: GR[Option[Float]],
+                                               e4: GR[java.sql.Timestamp]): GR[CrSurveySubmissionsRow] = GR{
     prs => import prs._
-    <<[Int] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[Float] :: <<?[Float] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[java.sql.Timestamp] :: <<?[String] :: <<?[String] :: HNil
+    <<[Int] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<?[String] :: <<?[String] :: <<?[String] ::
+      <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] ::
+      <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] :: <<?[String] ::
+      <<?[Float] :: <<?[Float] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[String] :: <<[String] ::
+      <<[String] :: <<[String] :: <<[java.sql.Timestamp] :: <<?[String] :: <<?[String] :: HNil
   }
   /** Table description of table cr_survey_submissions. Objects of this class serve as prototypes for rows in queries. */
   class CrSurveySubmissions(_tableTag: Tag) extends Table[CrSurveySubmissionsRow](_tableTag, "cr_survey_submissions") {
-    def * = id :: department :: number :: section :: edition :: worthwhile :: difficult :: learned :: enjoyed :: nonconc :: presented :: time :: encouraged :: passionate :: receptive :: availablefeedback :: timely :: policy :: conc :: requirement :: expected :: attended :: avghours :: maxhours :: background :: assignments :: difficulty :: effective :: feedback :: recommendations :: improvements :: memorable :: ts :: instructors :: materials :: HNil
+    def * = id :: department :: number :: section :: edition :: worthwhile :: difficult :: learned :: enjoyed ::
+      nonconc :: presented :: time :: encouraged :: passionate :: receptive :: availablefeedback :: timely ::
+      policy :: conc :: requirement :: expected :: attended :: avghours :: maxhours :: background :: assignments ::
+      difficulty :: effective :: feedback :: recommendations :: improvements :: memorable :: ts :: instructors ::
+      materials :: HNil
     
     /** Database column id DBType(MEDIUMINT), AutoInc, PrimaryKey */
     val id: Column[Int] = column[Int]("id", O.AutoInc, O.PrimaryKey)
@@ -647,17 +772,26 @@ object Tables {
    *  @param mailbox Database column MAILBOX DBType(VARCHAR), Length(9,true)
    *  @param hasPhoto Database column HAS_PHOTO DBType(BIT)
    *  @param photoVersion Database column PHOTO_VERSION DBType(INT) */
-  case class CrUserBios2005Row(bioId: Int, userId: Int, edition: String, time: Int, bio: String, year: String, lev: Byte, name: String, title: String, rank: Short, phone: String, mailbox: String, hasPhoto: Boolean, photoVersion: Int)
+  case class CrUserBios2005Row(bioId: Int, userId: Int, edition: String, time: Int, bio: String, year: String,
+                               lev: Byte, name: String, title: String, rank: Short, phone: String, mailbox: String,
+                               hasPhoto: Boolean, photoVersion: Int)
   /** GetResult implicit for fetching CrUserBios2005Row objects using plain SQL queries */
-  implicit def GetResultCrUserBios2005Row(implicit e0: GR[Int], e1: GR[String], e2: GR[Byte], e3: GR[Short], e4: GR[Boolean]): GR[CrUserBios2005Row] = GR{
+  implicit def GetResultCrUserBios2005Row(implicit e0: GR[Int], e1: GR[String], e2: GR[Byte], e3: GR[Short],
+                                          e4: GR[Boolean]): GR[CrUserBios2005Row] = GR{
     prs => import prs._
-    CrUserBios2005Row.tupled((<<[Int], <<[Int], <<[String], <<[Int], <<[String], <<[String], <<[Byte], <<[String], <<[String], <<[Short], <<[String], <<[String], <<[Boolean], <<[Int]))
+    CrUserBios2005Row.tupled((<<[Int], <<[Int], <<[String], <<[Int], <<[String], <<[String], <<[Byte], <<[String],
+      <<[String], <<[Short], <<[String], <<[String], <<[Boolean], <<[Int]))
   }
   /** Table description of table cr_user_bios_2005. Objects of this class serve as prototypes for rows in queries. */
   class CrUserBios2005(_tableTag: Tag) extends Table[CrUserBios2005Row](_tableTag, "cr_user_bios_2005") {
-    def * = (bioId, userId, edition, time, bio, year, lev, name, title, rank, phone, mailbox, hasPhoto, photoVersion) <> (CrUserBios2005Row.tupled, CrUserBios2005Row.unapply)
+    def * = (bioId, userId, edition, time, bio, year, lev, name, title, rank, phone, mailbox, hasPhoto, photoVersion) <>
+      (CrUserBios2005Row.tupled, CrUserBios2005Row.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (bioId.?, userId.?, edition.?, time.?, bio.?, year.?, lev.?, name.?, title.?, rank.?, phone.?, mailbox.?, hasPhoto.?, photoVersion.?).shaped.<>({r=>import r._; _1.map(_=> CrUserBios2005Row.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get, _9.get, _10.get, _11.get, _12.get, _13.get, _14.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (bioId.?, userId.?, edition.?, time.?, bio.?, year.?, lev.?, name.?, title.?, rank.?, phone.?, mailbox.?,
+      hasPhoto.?, photoVersion.?).shaped.<>({r=>import r._; _1.map(_=>
+      CrUserBios2005Row.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get, _9.get, _10.get,
+        _11.get, _12.get, _13.get, _14.get)))}, (_:Any) =>
+      throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column BIO_ID DBType(INT), AutoInc, PrimaryKey */
     val bioId: Column[Int] = column[Int]("BIO_ID", O.AutoInc, O.PrimaryKey)
@@ -709,7 +843,9 @@ object Tables {
   class CrUserLevel2005(_tableTag: Tag) extends Table[CrUserLevel2005Row](_tableTag, "cr_user_level_2005") {
     def * = (levelId, userId, editionId, lev) <> (CrUserLevel2005Row.tupled, CrUserLevel2005Row.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (levelId.?, userId.?, editionId.?, lev.?).shaped.<>({r=>import r._; _1.map(_=> CrUserLevel2005Row.tupled((_1.get, _2.get, _3.get, _4.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (levelId.?, userId.?, editionId.?, lev.?).shaped.<>({r=>import r._; _1.map(_=>
+      CrUserLevel2005Row.tupled((_1.get, _2.get, _3.get, _4.get)))}, (_:Any) =>
+      throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column LEVEL_ID DBType(INT), AutoInc, PrimaryKey */
     val levelId: Column[Int] = column[Int]("LEVEL_ID", O.AutoInc, O.PrimaryKey)
@@ -736,18 +872,27 @@ object Tables {
    *  @param bio1 Database column BIO1 DBType(TEXT), Length(65535,true)
    *  @param staff Database column STAFF DBType(BINARY)
    *  @param `super` Database column SUPER DBType(BIT), Default(false) */
-  case class CrUsers2005Row(id: Int, username: String = "", password: Option[String] = None, oldPassword: Option[String] = None, email: String = "", level: String = "", cookie: String = "", session: String = "", ip: String = "", bio1: String, staff: java.sql.Blob, `super`: Boolean = false)
+  case class CrUsers2005Row(id: Int, username: String = "", password: Option[String] = None,
+                            oldPassword: Option[String] = None, email: String = "", level: String = "",
+                            cookie: String = "", session: String = "", ip: String = "", bio1: String,
+                            staff: java.sql.Blob, `super`: Boolean = false)
   /** GetResult implicit for fetching CrUsers2005Row objects using plain SQL queries */
-  implicit def GetResultCrUsers2005Row(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[String]], e3: GR[java.sql.Blob], e4: GR[Boolean]): GR[CrUsers2005Row] = GR{
+  implicit def GetResultCrUsers2005Row(implicit e0: GR[Int], e1: GR[String], e2: GR[Option[String]],
+                                       e3: GR[java.sql.Blob], e4: GR[Boolean]): GR[CrUsers2005Row] = GR{
     prs => import prs._
-    CrUsers2005Row.tupled((<<[Int], <<[String], <<?[String], <<?[String], <<[String], <<[String], <<[String], <<[String], <<[String], <<[String], <<[java.sql.Blob], <<[Boolean]))
+    CrUsers2005Row.tupled((<<[Int], <<[String], <<?[String], <<?[String], <<[String], <<[String], <<[String],
+      <<[String], <<[String], <<[String], <<[java.sql.Blob], <<[Boolean]))
   }
   /** Table description of table cr_users_2005. Objects of this class serve as prototypes for rows in queries.
    *  NOTE: The following names collided with Scala keywords and were escaped: super */
   class CrUsers2005(_tableTag: Tag) extends Table[CrUsers2005Row](_tableTag, "cr_users_2005") {
-    def * = (id, username, password, oldPassword, email, level, cookie, session, ip, bio1, staff, `super`) <> (CrUsers2005Row.tupled, CrUsers2005Row.unapply)
+    def * = (id, username, password, oldPassword, email, level, cookie, session, ip, bio1, staff, `super`) <>
+      (CrUsers2005Row.tupled, CrUsers2005Row.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (id.?, username.?, password, oldPassword, email.?, level.?, cookie.?, session.?, ip.?, bio1.?, staff.?, `super`.?).shaped.<>({r=>import r._; _1.map(_=> CrUsers2005Row.tupled((_1.get, _2.get, _3, _4, _5.get, _6.get, _7.get, _8.get, _9.get, _10.get, _11.get, _12.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (id.?, username.?, password, oldPassword, email.?, level.?, cookie.?, session.?, ip.?, bio1.?, staff.?,
+      `super`.?).shaped.<>({r=>import r._; _1.map(_=> CrUsers2005Row.tupled((_1.get, _2.get, _3, _4, _5.get, _6.get,
+      _7.get, _8.get, _9.get, _10.get, _11.get, _12.get)))}, (_:Any) =>
+      throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column ID DBType(INT), AutoInc */
     val id: Column[Int] = column[Int]("ID", O.AutoInc)
@@ -797,17 +942,24 @@ object Tables {
    *  @param mcDisplaytime Database column mc_displayTime DBType(VARCHAR), Length(63,true)
    *  @param mcCourseregistrationnumber Database column mc_courseRegistrationNumber DBType(INT)
    *  @param mcRealtime Database column mc_realTime DBType(VARCHAR), Length(63,true) */
-  case class MochaCoursesRow(mcUid: Int, mcBooks: String, mcDepartmentCode: String, mcCourseNum: String, mcSection: Int, mcProfessor: String, mcTitle: String, mcSemestertext: String, mcDisplaytime: String, mcCourseregistrationnumber: Int, mcRealtime: String)
+  case class MochaCoursesRow(mcUid: Int, mcBooks: String, mcDepartmentCode: String, mcCourseNum: String,
+                             mcSection: Int, mcProfessor: String, mcTitle: String, mcSemestertext: String,
+                             mcDisplaytime: String, mcCourseregistrationnumber: Int, mcRealtime: String)
   /** GetResult implicit for fetching MochaCoursesRow objects using plain SQL queries */
   implicit def GetResultMochaCoursesRow(implicit e0: GR[Int], e1: GR[String]): GR[MochaCoursesRow] = GR{
     prs => import prs._
-    MochaCoursesRow.tupled((<<[Int], <<[String], <<[String], <<[String], <<[Int], <<[String], <<[String], <<[String], <<[String], <<[Int], <<[String]))
+    MochaCoursesRow.tupled((<<[Int], <<[String], <<[String], <<[String], <<[Int], <<[String], <<[String], <<[String],
+      <<[String], <<[Int], <<[String]))
   }
   /** Table description of table mocha_courses. Objects of this class serve as prototypes for rows in queries. */
   class MochaCourses(_tableTag: Tag) extends Table[MochaCoursesRow](_tableTag, "mocha_courses") {
-    def * = (mcUid, mcBooks, mcDepartmentCode, mcCourseNum, mcSection, mcProfessor, mcTitle, mcSemestertext, mcDisplaytime, mcCourseregistrationnumber, mcRealtime) <> (MochaCoursesRow.tupled, MochaCoursesRow.unapply)
+    def * = (mcUid, mcBooks, mcDepartmentCode, mcCourseNum, mcSection, mcProfessor, mcTitle, mcSemestertext,
+      mcDisplaytime, mcCourseregistrationnumber, mcRealtime) <> (MochaCoursesRow.tupled, MochaCoursesRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (mcUid.?, mcBooks.?, mcDepartmentCode.?, mcCourseNum.?, mcSection.?, mcProfessor.?, mcTitle.?, mcSemestertext.?, mcDisplaytime.?, mcCourseregistrationnumber.?, mcRealtime.?).shaped.<>({r=>import r._; _1.map(_=> MochaCoursesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get, _9.get, _10.get, _11.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (mcUid.?, mcBooks.?, mcDepartmentCode.?, mcCourseNum.?, mcSection.?, mcProfessor.?, mcTitle.?,
+      mcSemestertext.?, mcDisplaytime.?, mcCourseregistrationnumber.?, mcRealtime.?).shaped.<>({r=>import r._;
+      _1.map(_=> MochaCoursesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get, _9.get,
+        _10.get, _11.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column mc_uid DBType(INT) */
     val mcUid: Column[Int] = column[Int]("mc_uid")
@@ -841,7 +993,8 @@ object Tables {
    *  @param data Database column data DBType(BLOB) */
   case class StaffPhotosRow(edition: String, userId: Int, data: java.sql.Blob)
   /** GetResult implicit for fetching StaffPhotosRow objects using plain SQL queries */
-  implicit def GetResultStaffPhotosRow(implicit e0: GR[String], e1: GR[Int], e2: GR[java.sql.Blob]): GR[StaffPhotosRow] = GR{
+  implicit def GetResultStaffPhotosRow(implicit e0: GR[String], e1: GR[Int], e2: GR[java.sql.Blob]):
+  GR[StaffPhotosRow] = GR{
     prs => import prs._
     StaffPhotosRow.tupled((<<[String], <<[Int], <<[java.sql.Blob]))
   }
@@ -849,7 +1002,8 @@ object Tables {
   class StaffPhotos(_tableTag: Tag) extends Table[StaffPhotosRow](_tableTag, "staff_photos") {
     def * = (edition, userId, data) <> (StaffPhotosRow.tupled, StaffPhotosRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (edition.?, userId.?, data.?).shaped.<>({r=>import r._; _1.map(_=> StaffPhotosRow.tupled((_1.get, _2.get, _3.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (edition.?, userId.?, data.?).shaped.<>({r=>import r._; _1.map(_=> StaffPhotosRow.tupled((_1.get, _2.get,
+      _3.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column edition DBType(VARCHAR), Length(15,true) */
     val edition: Column[String] = column[String]("edition", O.Length(15,varying=true))
@@ -881,7 +1035,9 @@ object Tables {
   class StaffVotes(_tableTag: Tag) extends Table[StaffVotesRow](_tableTag, "staff_votes") {
     def * = (voteId, userId, edition, departmentCode, courseNum, section) <> (StaffVotesRow.tupled, StaffVotesRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (voteId.?, userId.?, edition.?, departmentCode.?, courseNum.?, section.?).shaped.<>({r=>import r._; _1.map(_=> StaffVotesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (voteId.?, userId.?, edition.?, departmentCode.?, courseNum.?, section.?).shaped.<>({r=>
+      import r._; _1.map(_=> StaffVotesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get)))},
+    (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column vote_id DBType(INT), AutoInc, PrimaryKey */
     val voteId: Column[Int] = column[Int]("vote_id", O.AutoInc, O.PrimaryKey)
@@ -920,7 +1076,9 @@ object Tables {
   class Tallies(_tableTag: Tag) extends Table[TalliesRow](_tableTag, "tallies") {
     def * = (edition, departmentCode, courseNum, section, xmlData) <> (TalliesRow.tupled, TalliesRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (edition.?, departmentCode.?, courseNum.?, section.?, xmlData.?).shaped.<>({r=>import r._; _1.map(_=> TalliesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (edition.?, departmentCode.?, courseNum.?, section.?, xmlData.?).shaped.<>({r=>
+      import r._; _1.map(_=> TalliesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get)))},
+    (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
     
     /** Database column edition DBType(CHAR), Length(16,false) */
     val edition: Column[String] = column[String]("edition", O.Length(16,varying=false))
