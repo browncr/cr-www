@@ -63,28 +63,29 @@ object Course extends Controller {
     Ok(views.html.search(filtered))
   }
 
-  def showReview(course: List[CrReview2008Row], offerings: List[(String, List[String])], messages: List[String]) = {
+  def showReview(course: List[CrReview2008Row], offerings: List[(String, List[String])])(implicit session: DBSession) = {
     course match {
-      case course::rest => Ok(views.html.course(course, offerings, messages))
+      case course::rest =>
+        val dept = course(2)
+        val edition = course(1)
+        val section = course(4)
+        val num = course(3)
+        val messages = getMessages(dept, num, edition, section).list
+        Ok(views.html.course(course, offerings, messages))
       case Nil => NotFound(<h1>No such course</h1>)
     }
   }
 
   def twoTupleReview(dept: String, num: String, tab: String) = DBAction { implicit request =>
     val offerings = getOfferings(dept, num)
-    val edition = Global.current_edition
-    val section = "1"
-    val messages = getMessages(dept, num, edition, section).list
-    showReview(Search.getCourse(dept, num).list, offerings, messages)
+    showReview(Search.getCourse(dept, num).list, offerings)
   }
 
   def threeTupleReview(dept: String, num: String, offering: String, tab: String) = DBAction { implicit request =>
     parse_cis_semester(offering) match {
       case Some(edition) =>
         val offerings = getOfferings(dept, num)
-        val section = "1"
-        val messages = getMessages(dept, num, offering, section).list
-        showReview(Search.getCourseByEdition(dept, num, edition).list, offerings, messages)
+        showReview(Search.getCourseByEdition(dept, num, edition).list, offerings)
       case None =>
         NotFound(<h1>Bad semester: {offering}</h1>)
     }
@@ -94,8 +95,7 @@ object Course extends Controller {
     parse_cis_semester(offering) match {
       case Some(edition) =>
         val offerings = getOfferings(dept, num)
-        val messages = getMessages(dept, num, offering, section).list
-        showReview(Search.getSpecificCourse(dept, num, edition, section).list, offerings, messages)
+        showReview(Search.getSpecificCourse(dept, num, edition, section).list, offerings)
       case None =>
         NotFound(<h1>Bad semester: {offering}</h1>)
     }
