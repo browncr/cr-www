@@ -63,9 +63,15 @@ object Course extends Controller {
     Ok(views.html.search(filtered))
   }
 
-  def showReview(course: List[CrReview2008Row], offerings: List[(String, List[String])], messages: List[String]) = {
+  def showReview(course: List[CrReview2008Row], offerings: List[(String, List[String])])(implicit session: DBSession) = {
     course match {
-      case course::rest => Ok(views.html.course(course, offerings, messages))
+      case course::rest =>
+        val dept = course(2)
+        val edition = course(1)
+        val section = course(4)
+        val num = course(3)
+        val messages = getMessages(dept, num, edition, section).list
+        Ok(views.html.course(course, offerings, messages))
       case Nil => NotFound(<h1>No such course</h1>)
     }
   }
