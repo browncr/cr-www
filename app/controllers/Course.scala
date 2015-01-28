@@ -81,7 +81,7 @@ object Course extends Controller {
     val edition = Global.current_edition
     val section = "1"
     val messages = getMessages(dept, num, edition, section).list
-    showReview(Search.getCourse(dept, num).list, offerings, messages)
+    showReview(Search.getCourse(dept, num).list, offerings)
   }
 
   def threeTupleReview(dept: String, num: String, offering: String, tab: String) = DBAction { implicit request =>
@@ -89,8 +89,7 @@ object Course extends Controller {
       case Some(edition) =>
         val offerings = getOfferings(dept, num)
         val section = "1"
-        val messages = getMessages(dept, num, offering, section).list
-        showReview(Search.getCourseByEdition(dept, num, edition).list, offerings, messages)
+        showReview(Search.getCourseByEdition(dept, num, edition).list, offerings)
       case None =>
         NotFound(<h1>Bad semester: {offering}</h1>)
     }
@@ -100,8 +99,7 @@ object Course extends Controller {
     parse_cis_semester(offering) match {
       case Some(edition) =>
         val offerings = getOfferings(dept, num)
-        val messages = getMessages(dept, num, offering, section).list
-        showReview(Search.getSpecificCourse(dept, num, edition, section).list, offerings, messages)
+        showReview(Search.getSpecificCourse(dept, num, edition, section).list, offerings)
       case None =>
         NotFound(<h1>Bad semester: {offering}</h1>)
     }
