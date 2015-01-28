@@ -78,9 +78,6 @@ object Course extends Controller {
 
   def twoTupleReview(dept: String, num: String, tab: String) = DBAction { implicit request =>
     val offerings = getOfferings(dept, num)
-    val edition = Global.current_edition
-    val section = "1"
-    val messages = getMessages(dept, num, edition, section).list
     showReview(Search.getCourse(dept, num).list, offerings)
   }
 
@@ -88,7 +85,6 @@ object Course extends Controller {
     parse_cis_semester(offering) match {
       case Some(edition) =>
         val offerings = getOfferings(dept, num)
-        val section = "1"
         showReview(Search.getCourseByEdition(dept, num, edition).list, offerings)
       case None =>
         NotFound(<h1>Bad semester: {offering}</h1>)
