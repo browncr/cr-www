@@ -25,7 +25,7 @@ GET     /help/search                controllers.Help.search
 GET     /help/instructor_names      controllers.Help.instructor_names
 
 # Funny quotes
-#GET    /quotes                     controllers.Quotes.index
+GET    /quotes                     controllers.Quotes.index
 
 # Feedback
 GET    /feedback                   controllers.Feedback.feedback
