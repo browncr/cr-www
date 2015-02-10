@@ -1,0 +1,41 @@
+@(masterArray: Array[List[models.Tables.CrQuotes2005Row]])
+
+@showQuote(q: models.Tables.CrQuotes2005Row) = {
+  @q.quote<br>
+}
+
+@main("Funny Quotes - The Critical Review") {
+  
+  <h3>Funny Quotes</h3>
+  <p>
+  	<i>Our staff combs through more than 10,000 surveys every semester and the vast majority of
+  	the student comments are serious, honest, and constructive, written with the best of intentions,
+  	and of course we treat them as such. Occasionally, however, we come across some particularly amusing
+  	comments, and here we present them. In accordance with our long-standing policy, we have deleted any
+  	specific references and names. Enjoy!</i>
+  </p>
+  
+  <h4>What background and classes prepared you for this course?</h4>
+  <p>@masterArray(0).map(showQuote)</p>
+  
+  <h4>What were the course assignments? Include exams, papers, projects, labs, readings, and homework.</h4>
+  <p>@masterArray(1).map(showQuote)</p>
+  
+  <h4>Comment on the assignments' difficulty and relevance to course goals.</h4>
+  <p>@masterArray(2).map(showQuote)</p>
+  
+  <h4>What was noteworthy, unique, or memorable about this course?</h4>
+  <p>@masterArray(3).map(showQuote)</p>
+  
+  <h4>Discuss the instructor's teaching style. What was effective and what was not?</h4>
+  <p>@masterArray(4).map(showQuote)</p>
+  
+  <h4>Comment on the instructor's feedback and availability outside of class.</h4>
+  <p>@masterArray(5).map(showQuote)</p>
+  
+  <h4>How can this course be improved in the future?</h4>
+  <p>@masterArray(6).map(showQuote)</p>
+  
+  <h4>What similar courses would you recommend to shoppers? Do you have any advice for interested students?</h4>
+  <p>@masterArray(7).map(showQuote)</p>
+} 
